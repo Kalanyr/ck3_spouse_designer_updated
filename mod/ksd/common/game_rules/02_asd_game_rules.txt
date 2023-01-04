@@ -1,0 +1,57 @@
+﻿asd_edit_game_after_start = {
+	default = asd_edit_game_after_start_disabled
+	asd_edit_game_after_start_disabled = {
+	
+	}
+
+	asd_edit_game_after_start_enabled = {
+        flag = "asd_edit_game_after_start"
+	
+	}
+	
+}
+
+asd_edit_restriction = {
+	default = asd_edit_restriction_standard
+	asd_edit_restriction_standard = {
+	
+	}
+	
+	asd_edit_restriction_unplayable = {
+		#flag = "asd_edit_restriction_unplayable"
+	}
+
+	asd_edit_restriction_unlanded = {
+        #flag = "asd_edit_restriction_unplayable"	
+        #flag = "asd_edit_restriction_unlanded"	
+	}
+}
+
+
+#Maybe do this from checkboxes in GUI ? 
+#
+#asd_ruler_preservation = {
+#	default = asd_edit_restriction_standard
+#	asd_ruler_preservation_standard = {
+#	
+#	}
+#	
+#	asd_ruler_preservation_dynasty = {
+#        flag = "asd_ruler_preserve_dynasty"	
+#	}
+
+
+#	asd_ruler_preservation_house = {
+#        flag = "asd_ruler_preserve_dynasty"	
+#        flag = "asd_ruler_preserve_house"	
+#	}
+
+#	asd_ruler_preservation_family = {
+#        flag = "asd_ruler_preserve_dynasty"	
+#        flag = "asd_ruler_preserve_house"	
+#        flag = "asd_ruler_preserve_family"	
+
+#	}
+
+#}
+

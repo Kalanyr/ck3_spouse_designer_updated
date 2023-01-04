@@ -1,0 +1,1366 @@
+﻿spouse_designer_create_spouse = {
+    scope = character
+    is_shown = {
+        NOT = {
+            exists = primary_spouse
+        }
+        is_adult = yes
+        is_alive = yes
+        can_marry_common_trigger = yes
+    }
+    effect = {
+        if = {
+            limit = {
+                NOT = {
+                    exists = primary_spouse
+                }
+            }
+            create_character = {
+                age = ROOT.age
+                gender_female_chance = ROOT.marriage_gender_adjusted_female_chance
+                random_traits = yes
+                location = ROOT.location
+                faith = ROOT.faith
+                culture = ROOT.culture
+                dynasty = generate
+                after_creation = {
+                    save_temporary_scope_as = spouse
+                }
+            }
+            random_list = {
+                50 = {
+                    trigger = {
+                        NAND = {
+                            is_female = yes
+                            OR = {
+                                is_ruler = yes
+                                AND = {
+                                    is_lowborn = yes
+                                    faith = { has_doctrine = doctrine_gender_female_dominated }
+                                }
+                                AND = {
+                                    is_lowborn = no
+                                    NOT = {faith = { has_doctrine = doctrine_gender_male_dominated }}
+                                }
+                            }
+                        }
+                    }
+                    marry = scope:spouse
+                }
+                50 = {
+                    trigger = {
+                        NAND = {
+                            is_male = yes
+                            OR = {
+                                is_ruler = yes
+                                AND = {
+                                    is_lowborn = yes
+                                    faith = {has_doctrine = doctrine_gender_male_dominated}
+                                }
+                                AND = {
+                                    is_lowborn = no
+                                    NOT = {faith = {has_doctrine = doctrine_gender_female_dominated}}
+                                }
+                            }
+                        }
+                    }
+                    marry_matrilineal = scope:spouse
+                }
+            }
+        }
+    }
+}
+
+spouse_designer_create_child = {
+    scope = character
+    is_shown = {
+        is_adult = yes
+    }
+
+    effect = {
+        if = {
+            limit = {
+                exists = primary_spouse
+            }
+            primary_spouse = {
+                save_temporary_scope_as = spouse
+            }
+        }
+
+        if = {
+            limit = { is_male = yes }
+            save_scope_as = father
+            if = {
+                limit = {
+                    exists = scope:spouse
+                }
+                scope:spouse = {
+                    if = {
+                        limit = {
+                            is_female = yes
+                        }
+                        save_scope_as = mother
+                    }
+                }
+            }
+        }
+        else = {
+            limit = { is_female = yes }
+            save_scope_as = mother
+            if = {
+                limit = {
+                    exists = scope:spouse
+                }
+                scope:spouse = {
+                    if = {
+                        limit = {
+                            is_male = yes
+                        }
+                        save_scope_as = father
+                    }
+                }
+            }
+        }
+
+        if = {
+            limit = {
+                exists = scope:mother
+                scope:mother = {
+                    is_alive = no
+                }
+            }
+            set_local_variable = {
+                name =  mother_years_since_death
+                value = {
+                        value = scope:mother.days_since_death
+                        divide = 365.25 #naive but unlikely to make a practical difference
+                        floor = yes
+                }
+            }
+        }
+
+        if = {
+            limit = {
+                exists = scope:father
+                scope:father = {
+                    is_alive = no
+                }
+            }
+            set_local_variable = {
+                name =  father_years_since_death
+                value = {
+                        value = scope:father.days_since_death
+                        divide = 365.25 #naive but unlikely to make a practical difference
+                        floor = yes
+                }
+            }
+        }
+
+        
+        set_local_variable = {
+            name = years_since_last_possible_birth
+            value = {
+                value = 0
+                if = {
+                    limit = {
+                        exists=local_var:mother_years_since_death
+                    }
+                    min = local_var:mother_years_since_death
+                }
+                if = {
+                    limit = {
+                        exists=local_var:father_years_since_death
+                    }
+                    min = { 
+                        value = local_var:father_years_since_death
+                        add = 1 #Father can be dead for ~1 year when child born
+                    }
+                }
+            }
+        }
+
+        set_local_variable = {
+            name = target_child_age
+            value = {
+                if = {
+                    limit = {
+                        any_child = {
+                            even_if_dead = yes
+                            count >= 1
+                        }
+                    }
+                    ordered_child = {
+                        even_if_dead = yes
+                        min = 1
+                        value = age
+                        if = {
+                            limit = {
+                                is_alive = no
+                            }
+                            add = {
+                                value = days_since_death
+                                divide = 365.25
+                                floor = yes
+                            }
+                        }
+                        subtract = { 1 15 }
+                    }
+                } 
+                else = {
+                    value = age 
+                    subtract = 17
+                }
+                if = {
+                    limit = {
+                        exists = scope:mother
+                    }
+                    max = { 
+                        value = scope:mother.age
+                        if = {
+                            limit = {
+                                exists = local_var:mother_years_since_death
+                            }
+                            add = local_var:mother_years_since_death
+                        }
+                        subtract = 17
+                    }
+                }
+                if = {
+                    limit = {
+                        exists = scope:father
+                    }
+                    max = { 
+                        value = scope:father.age
+                        if = {
+                            limit = {
+                                exists = local_var:father_years_since_death
+                            }
+                            add = local_var:father_years_since_death
+                        }
+                        subtract = 17
+                    }
+                }
+                min = local_var:years_since_last_possible_birth
+            }
+        }
+
+        #find a location for dead characters...
+        if = {
+            limit = {is_alive = no}
+            if = {
+                limit = {
+                    any_close_family_member = {
+                        is_alive = yes
+                        OR = {
+                            is_ruler = yes
+                            exists = liege
+                        }
+                    }
+                }
+                ordered_close_family_member = {
+                    limit = {
+                        is_alive = yes
+                        OR = {
+                            is_ruler = yes
+                            exists = liege
+                        }
+                    }
+                    max = 1
+                    location = {
+                        save_temporary_scope_as = location
+                    }
+                    if = {
+                        limit = {
+                            is_ruler = yes
+                        }
+                        save_temporary_scope_as = employer
+                    }
+                    else = {
+                        liege = {
+                            save_temporary_scope_as = employer
+                        }
+                    }
+                }
+            }
+            else_if = {
+                limit = {
+                    any_close_family_member = {
+                        is_ruler = yes
+                        is_alive = yes
+                    }
+                }
+                random_close_family_member = {
+                    limit = {
+                        is_ruler = yes
+                        is_alive = yes
+                    }
+                    location = {
+                        save_temporary_scope_as = location
+                    }
+                    save_temporary_scope_as = employer
+                }
+            }
+            else_if = {
+                limit = {
+                    any_extended_family_member = {
+                        is_ruler = yes
+                        is_alive = yes
+                    }
+                }
+                random_extended_family_member = {
+                    limit = {
+                        is_ruler = yes
+                        is_alive = yes
+                    }
+                    location = {
+                        save_temporary_scope_as = location
+                    }
+                    save_temporary_scope_as = employer
+                }
+            }
+            else_if = {
+                limit = {
+                    is_lowborn = no
+                    house = {
+                        any_house_member = {
+                            is_ruler = yes
+                            is_alive = yes
+                        }
+                    }
+                }
+                house = {
+                    random_house_member = {
+                        limit = {
+                            is_ruler = yes
+                            is_alive = yes
+                        }
+                        location = {
+                            save_temporary_scope_as = location
+                        }
+                        save_temporary_scope_as = employer
+                    }
+                }
+            }
+            else_if = {
+                limit = {
+                    is_lowborn = no
+                    dynasty = {
+                        any_dynasty_member = {
+                            is_ruler = yes
+                            is_alive = yes
+                        }
+                    }
+                }
+                dynasty = {
+                    random_dynasty_member = {
+                        limit = {
+                            is_ruler = yes
+                            is_alive = yes
+                        }
+                        location = {
+                            save_temporary_scope_as = location
+                        }
+                        save_temporary_scope_as = employer
+                    }
+                }
+            }
+            else_if = {
+                limit = {
+                    any_ruler = {
+                        is_alive = yes
+                        culture = ROOT.culture
+                        faith = ROOT.faith
+                    }
+                }
+                random_ruler = {
+                    limit = {
+                        is_alive = yes
+                        culture = ROOT.culture
+                        faith = ROOT.faith
+                    }
+                    location = {
+                        save_temporary_scope_as = location
+                    }
+                    save_temporary_scope_as = employer
+                }
+            }
+            else_if = {
+                limit = {
+                    any_ruler = {
+                        is_alive = yes
+                        culture = ROOT.culture
+                        faith = {
+                            faith_hostility_level = {
+                                target = ROOT.faith
+                                value < faith_hostile_level
+                            }
+                        }
+                    }
+                }
+                random_ruler = {
+                    limit = {
+                        is_alive = yes
+                        culture = ROOT.culture
+                        faith = {
+                            faith_hostility_level = {
+                                target = ROOT.faith
+                                value < faith_hostile_level
+                            }
+                        }
+                    }
+                    location = {
+                        save_temporary_scope_as = location
+                    }
+                    save_temporary_scope_as = employer
+                }
+            }
+            else_if = {
+                limit = {
+                    any_province = {
+                        has_holding = yes
+                        culture = ROOT.culture
+                        faith = ROOT.faith
+                        exists = province_owner
+                    }
+                }
+                random_province = {
+                    limit = {
+                        has_holding = yes
+                        culture = ROOT.culture
+                        faith = ROOT.faith
+                        exists = province_owner
+                    }
+                    save_temporary_scope_as = location
+                    province_owner = {
+                        save_temporary_scope_as = employer
+                    } 
+                }
+            }
+            else_if = {
+                limit = {
+                    any_province = {
+                        has_holding = yes
+                        culture = ROOT.culture
+                        faith = {
+                            faith_hostility_level = {
+                                target = ROOT.faith
+                                value < faith_hostile_level
+                            }
+                        }
+                        exists = province_owner
+                    }
+                }
+                random_province = {
+                    limit = {
+                        has_holding = yes
+                        culture = ROOT.culture
+                        faith = {
+                            faith_hostility_level = {
+                                target = ROOT.faith
+                                value < faith_hostile_level
+                            }
+                        }
+                        exists = province_owner
+                    }
+                    save_temporary_scope_as = location
+                    province_owner = {
+                        save_temporary_scope_as = employer
+                    } 
+                }
+            }
+            else_if = {
+                limit = {
+                    any_ruler = {
+                        is_alive = yes
+                        faith = ROOT.faith
+                    }
+                }
+                random_ruler = {
+                    limit = {
+                        is_alive = yes
+                        faith = ROOT.faith
+                    }
+                    location = {
+                        save_temporary_scope_as = location
+                    }
+                    save_temporary_scope_as = employer
+                }
+            }
+            else_if = {
+                limit = {
+                    any_province = {
+                        has_holding = yes
+                        faith = ROOT.faith
+                        exists = province_owner
+                    }
+                }
+                random_province = {
+                    limit = {
+                        has_holding = yes
+                        faith = ROOT.faith
+                        exists = province_owner
+                    }
+                    save_temporary_scope_as = location
+                    province_owner = {
+                        save_temporary_scope_as = employer
+                    } 
+                }
+            }
+            else = {
+                random_ruler = {
+                    limit = {
+                        is_alive = yes
+                    }
+                    location = {
+                        save_temporary_scope_as = location
+                    }
+                }
+            }
+        }
+        else = {        
+            location = {
+                save_temporary_scope_as = location
+            }            
+        }
+
+        #Create child
+        if = {
+            limit = {
+                exists = scope:mother
+            }
+            if = { #Do we have a father saved?
+                limit = {
+                    exists = scope:father
+                }
+                create_character = {
+                    location = scope:location
+                    culture = ROOT.culture
+                    faith = ROOT.faith
+                    gender_female_chance = {
+                        if = {
+                            limit = {
+                                ROOT = {
+                                    any_child = {
+                                        count = 0
+                                    }
+                                }
+                                ROOT = { is_ruler = yes }
+                                ROOT = { has_realm_law = male_only_law }
+                            }
+                            value = 0
+                        }
+                        else_if = {
+                            limit = {
+                                ROOT = {
+                                    any_child = {
+                                        count = 0
+                                    }
+                                }
+                                ROOT = { is_ruler = yes }
+                                ROOT = { has_realm_law = female_only_law }
+                            }
+                            value = 100
+                        }
+                        else = {
+                            value = 50
+                        }
+                    }
+                    age = local_var:target_child_age
+                    father = scope:father
+                    mother = scope:mother
+                    dynasty = inherit
+                    save_scope_as = generated_child
+                }
+            }
+            else = { #If we don't have a father we generate a child without
+                create_character = {
+                    location = scope:location
+                    culture = ROOT.culture
+                    faith = ROOT.faith
+                    gender_female_chance = {
+                        if = {
+                            limit = {
+                                ROOT = {
+                                    any_child = {
+                                        count = 0
+                                    }
+                                }
+                                ROOT = { is_ruler = yes }
+                                ROOT = { has_realm_law = male_only_law }
+                            }
+                            value = 0
+                        }
+                        else_if = {
+                            limit = {
+                                ROOT = {
+                                    any_child = {
+                                        count = 0
+                                    }
+                                }
+                                ROOT = { is_ruler = yes }
+                                ROOT = { has_realm_law = female_only_law }
+                            }
+                            value = 100
+                        }
+                        else = {
+                            value = 50
+                        }
+                    }
+                    age = local_var:target_child_age
+                    mother = scope:mother
+                    dynasty = inherit
+                    save_scope_as = generated_child
+               }
+            }
+        }
+        #Create child (no mother)
+        else_if = {
+            limit = {
+                NOT = { exists = scope:mother }
+            }
+            create_character = {
+                location = scope:location
+                culture = ROOT.culture
+                faith = ROOT.faith
+                gender_female_chance = {
+                    if = {
+                        limit = {
+                            ROOT = {
+                                any_child = {
+                                    count = 0
+                                }
+                            }
+                            ROOT = { is_ruler = yes }
+                            ROOT = { has_realm_law = male_only_law }
+                        }
+                        value = 0
+                    }
+                    else_if = {
+                        limit = {
+                            ROOT = {
+                                any_child = {
+                                    count = 0
+                                }
+                            }
+                            ROOT = { is_ruler = yes }
+                            ROOT = { has_realm_law = female_only_law }
+                        }
+                        value = 100
+                    }
+                    else = {
+                        value = 50
+                    }
+                }
+                age = local_var:target_child_age
+                father = scope:father
+                dynasty = inherit
+                save_scope_as = generated_child
+            }   
+        }
+        if = {
+            limit = {
+                is_alive = no
+            }
+            if = {
+                #If character is a child and other parent exists and is alive put them together
+                limit = {
+                    exists = scope:spouse
+                    scope:spouse = {
+                        is_alive = yes
+                    }
+                    scope:generated_child = {
+                        is_adult = no
+                    }
+                }
+                scope:generated_child = {
+                    move_to_pool_at = scope:spouse.location
+                }
+                if = {
+                    limit = {
+                        scope:spouse = {
+                            OR = {
+                                is_ruler = yes
+                                AND = {
+                                    is_ruler = no
+                                    exists = liege
+                                }
+                            }
+                        }
+                    }
+                    scope:spouse = {
+                        if = {
+                             limit = {
+                                 is_ruler = no
+                                 exists = liege
+                             }
+                             liege = {
+                                 save_temporary_scope_as = employer
+                             }
+                        }
+                    }
+                }
+            }
+        }
+        else = {
+           if = {
+                limit = {
+                    is_ruler = no
+                    exists = liege
+                }
+                liege = {
+                    save_temporary_scope_as = employer
+                }
+            }
+        }
+        if = {
+            limit = {
+                exists = scope:employer
+            }
+            scope:generated_child = {
+                set_employer = scope:employer
+            }
+        }
+    }
+}
+spouse_designer_activate = {
+    scope = character
+    is_shown = {
+        is_alive = yes
+        NOT = {has_variable = spouse_designer_is_created_spouse}
+        exists = primary_spouse
+        primary_spouse = {
+            NOT = {is_landed = yes}
+        }
+    }
+    effect = {
+        set_global_variable = {name = spouse_designer_root_char value = ROOT}
+        set_global_variable = spouse_designer
+        remove_global_variable = spouse_designer_child
+        
+    }
+}
+
+spouse_designer_add_placeholder_title = {
+    scope = character
+    saved_scopes = {family_member}
+    effect = {
+        if = {
+            limit = {
+                scope:family_member = {
+                    is_ruler = no
+                }
+            }
+            if = {
+                limit = {
+                    exists = primary_title
+                }
+                primary_title = {
+                    save_scope_as = placeholder_source_title
+                }
+            } 
+            else = {
+                scope:family_member.location.county = {
+                    save_scope_as = placeholder_source_title
+                }
+            }
+            # Create a new title for the family_member.
+            create_dynamic_title = {
+                tier = duchy
+                name = SPOUSE_DESIGNER_FAMILY_TITLE_NAME
+            }
+            create_title_and_vassal_change = {
+                type = created
+                save_scope_as = change
+                add_claim_on_loss = no
+            }
+            scope:new_title = {
+                set_capital_county = scope:placeholder_source_title.title_capital_county
+                set_landless_title = yes
+                set_destroy_on_succession = no
+                set_delete_on_destroy = no
+                set_no_automatic_claims = yes
+                set_definitive_form = yes
+                set_can_be_named_after_dynasty = no
+                change_title_holder = {
+                    holder = scope:family_member
+                    change = scope:change
+                }
+                set_variable = {
+                    name = spouse_designer_title
+                    value = yes
+                }
+                set_coa = scope:placeholder_source_title
+            }
+            resolve_title_and_vassal_change = scope:change
+        }
+    }
+}
+
+spouse_designer_remove_placeholder_title = {
+    scope = character
+    effect = {
+        every_held_title = {
+            limit = {
+                tier = tier_duchy
+                has_variable = spouse_designer_title
+            }
+            save_temporary_scope_as = placeholder_title
+            set_delete_on_destroy = yes
+            ROOT = { destroy_title = scope:placeholder_title }
+        }
+    }
+}    
+
+
+spouse_designer_show_realm = {
+    scope = character
+    is_shown = {
+        is_landed = yes
+        primary_title = {
+            NOT = { has_variable = spouse_designer_title}
+        }
+    }
+}    
+
+spouse_designer_show_full_title = {
+    scope = character
+    is_shown = {
+        is_landed = yes
+        primary_title = {
+            NOT = { has_variable = spouse_designer_title}
+        }
+    }
+}    
+
+spouse_designer_make_children_variable_list = {
+    scope = character    
+    is_valid = {
+        NOT = {
+            AND  = {
+                exists =  culture.var:children_list_current_children
+                any_child = {
+                    even_if_dead = yes
+                    count = culture.var:children_list_current_children
+                }
+                culture = {
+                    exists = var:children_list_character
+                    var:children_list_character = root
+                    #has_variable_list = children_list
+                    #var:children_list_up_to_date = yes
+                }
+            }
+        }
+    }
+    effect = {
+        save_temporary_scope_as = character
+        culture = {
+            save_temporary_scope_as = culture
+            clear_variable_list = children_list
+            set_variable = {name = children_list_character value = scope:character }
+            set_variable = {name = children_list_current_children value = 0}
+            scope:character = {
+                ordered_child = {
+                    min = 0
+                    check_range_bounds = no
+                    even_if_dead = yes
+                    scope:culture = {
+                       add_to_variable_list = {
+                            name = children_list
+                            target = prev
+                        }
+                        change_variable = {
+                            name = children_list_current_children
+                            add = 1
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+spouse_designer_children_activate = {
+    scope = character
+    saved_scopes = {child}
+    is_shown = {
+        exists = scope:child
+        scope:child = {
+            NOT = { is_landed = yes }
+        }
+    }
+    effect = {
+        set_global_variable = {name = spouse_designer_root_char value = ROOT}
+        set_global_variable = {name = spouse_designer_replaced_child value = scope:child}
+        remove_global_variable = spouse_designer
+        set_global_variable = spouse_designer_child
+    }
+}
+
+spouse_designer_visible_for_ruler_designer = {
+    scope = character
+    is_shown = {
+        is_alive = yes
+        NOT = {has_variable = spouse_designer_is_created_spouse}
+        NOT = {has_variable = spouse_designer_is_created_child}
+    }
+}
+
+spouse_designer_is_married = {
+    scope = character
+    is_shown = {
+        exists = primary_spouse
+    }
+}
+
+spouse_designer_matrilineal_marriage = {
+    scope = character
+    is_shown = {
+        matrilinear_marriage = yes
+    }
+    is_valid = {
+        is_alive = yes
+        NOT = {has_variable = spouse_designer_is_created_spouse}
+        primary_spouse = {
+            NOT = {is_landed = yes}
+        }
+    }
+    effect = {
+        primary_spouse = {
+            save_temporary_scope_as = spouse
+        }
+        if = {
+            limit = {matrilinear_marriage  =yes}
+            divorce = scope:spouse
+            marry = scope:spouse
+        }
+        else = {
+            divorce = scope:spouse
+            marry_matrilineal = scope:spouse
+        }
+    }
+}
+spouse_designer_deactivate = {
+    scope = character
+    effect = {
+        remove_global_variable = spouse_designer_root_char
+        remove_global_variable = spouse_designer_replaced_child
+        remove_global_variable = spouse_designer
+        remove_global_variable = spouse_designer_child
+    }
+}
+
+spouse_designer_playable = {
+    scope = character
+    is_valid = {
+		custom_description = {
+			text = "GAME_OVER_CANNOT_PLAY_UNLANDED"
+            NOT = {
+                AND = {
+                    is_landed = no
+                    NOT = { has_game_rule = asd_edit_restriction_unlanded }
+                }
+            }
+		}
+		custom_description = {
+			text = "GAME_OVER_CANNOT_PLAY_BELOW_COUNT"
+            NOT =  { 
+                AND = {
+                    is_landed = yes
+                    highest_held_title_tier < tier_county
+                    NOT = { has_game_rule = asd_edit_restriction_unlanded }
+                }
+            }
+		}
+
+		custom_description = {
+			text = "GAME_OVER_CANNOT_PLAY_THEOCRACY"
+            NOT =  { 
+                AND = {
+                    is_landed = yes
+                    has_government = theocracy_government
+                    NOT = { has_game_rule = asd_edit_restriction_unplayable }
+                }
+            }
+		}
+
+		custom_description = {
+			text = "GAME_OVER_CANNOT_PLAY_REPUBLIC"
+            NOT =  { 
+                AND = {
+                    is_landed = yes
+                    has_government = republic_government
+                    NOT = { has_game_rule = asd_edit_restriction_unplayable }
+                }
+            }
+		}
+        
+    }
+}
+
+spouse_designer_remove_child = {
+    scope = character
+    saved_scopes = {child}
+    is_shown = {
+        exists = scope:child
+        scope:child = {
+            NOT = { is_landed = yes }
+            any_child = {
+                even_if_dead = yes
+                count = 0
+            }
+        }
+    }
+    effect = {
+        if = {
+            limit = {
+                is_alive = yes
+            }
+            location = {
+                save_temporary_scope_as = parent_location
+            }
+        }
+        else_if  = {
+            limit = {
+                scope:child = {
+                    is_alive = yes
+                }
+            }
+            scope:child = {
+                location = {
+                    save_temporary_scope_as = parent_location
+                }
+            }
+        } 
+        else = {
+            random_province = {
+                limit = {  has_holding = yes }
+                save_temporary_scope_as = parent_location
+            }
+        }
+        scope:child = {
+            create_character = {
+                age = {
+                    value = age
+                    add = 17
+                    if = {
+                        limit = {
+                            is_alive = no
+                        }
+                        add = {
+                            value = days_since_death
+                            divide = 365.25
+                            floor = yes
+                        }
+                    }                    
+                }
+                culture = culture
+                faith = faith
+                gender = male
+                dynasty = generate
+                location = scope:parent_location
+                after_creation = {
+                    save_temporary_scope_as = replacement_real_father
+                }
+            }
+            create_character = {
+                age = {
+                    value = age
+                    add = 17
+                    if = {
+                         limit = {
+                             is_alive = no
+                         }
+                         add = {
+                             value = days_since_death
+                             divide = 365.25
+                             floor = yes
+                         }
+                    }
+                }
+                culture = culture
+                faith = faith
+                gender = male
+                dynasty = generate
+                location = scope:parent_location
+                after_creation = {
+                    save_temporary_scope_as = replacement_father
+                }
+            }
+            create_character = {
+                age = {
+                    value = age
+                    add = 17
+                    if = {
+                         limit = {
+                             is_alive = no
+                         }
+                         add = {
+                             value = days_since_death
+                             divide = 365.25
+                             floor = yes
+                         }
+                    }
+                }
+                culture = culture
+                faith = faith
+                gender = female
+                dynasty = generate
+                location = scope:parent_location
+                after_creation = {
+                    save_temporary_scope_as = replacement_mother
+                }
+            }
+            create_character = {
+                age = {
+                    value = age
+                    if = {
+                         limit = {
+                             is_alive = no
+                         }
+                         add = {
+                             value = days_since_death
+                             divide = 365.25
+                             floor = yes
+                         }
+                    }
+                }
+                culture = culture
+                faith = faith
+                dynasty = generate
+                gender = this
+                location = scope:parent_location
+                after_creation = {
+                    save_temporary_scope_as = dummy
+                }
+            }
+            if = {
+                limit = {
+                    exists = mother
+                    mother = {
+                        is_lowborn = yes
+                    }
+                }
+                scope:replacement_mother = {
+                    set_to_lowborn = yes
+                }
+            }
+            if = {
+                limit = {
+                    exists = father
+                    father = {
+                        is_lowborn = yes
+                    }
+                }
+                scope:replacement_father = {
+                    set_to_lowborn = yes
+                }
+            }
+            if = {
+                limit = {
+                    exists = real_father
+                    real_father = {
+                        is_lowborn = yes
+                    }
+                }
+                scope:replacement_real_father = {
+                    set_to_lowborn = yes
+                }
+            }
+            if = {
+                limit = {
+                    exists = mother
+                    exists = father
+                    mother = { is_lowborn = no }
+                    father = { is_lowborn = no }
+                    mother.house = father.house
+                }
+                scope:replacement_father = {
+                    set_house = scope:replacement_mother.house
+                }
+            }
+            if = {
+                limit = {
+                    exists = mother
+                    exists = real_father
+                    mother = { is_lowborn = no }
+                    real_father = { is_lowborn = no }
+                    mother.house = real_father.house
+                }
+                scope:replacement_real_father = {
+                    set_house = scope:replacement_mother.house
+                }
+            }
+            if = {
+                limit = {
+                    exists = father
+                    exists = real_father
+                    father = { is_lowborn = no }
+                    real_father = { is_lowborn = no }
+                    father.house = real_father.house
+                }
+                scope:replacement_real_father = {
+                    set_house = scope:replacement_father.house
+                }
+            }
+            if = {
+                limit = {
+                    exists = father
+                    is_lowborn = no
+                    father = { is_lowborn = no }
+                    house = father.house
+                }
+                set_house = scope:replacement_father.house
+            } 
+            else_if = {
+                limit = {
+                    exists = real_father
+                    is_lowborn = no
+                    real_father = { is_lowborn = no }
+                    house = real_father.house
+                }
+                set_house = scope:replacement_real_father.house
+            }
+            else_if = {
+                limit = {
+                    exists = mother
+                    is_lowborn = no
+                    mother = { is_lowborn = no }
+                    house = mother.house
+                }
+                set_house = scope:replacement_mother.house
+            } 
+            else_if = {
+                limit = {
+                    is_lowborn = no
+                }
+                set_house = scope:dummy.house
+            }
+            if = {
+                limit = {
+                    exists = father
+                    exists = mother
+                }
+                if = {
+                    limit = {
+                        father = {
+                            any_spouse = {
+                                this = mother
+                                matrilinear_marriage = yes
+                            }
+                        }
+                    }
+                    scope:replacement_father = {
+                        marry_matrilineal = scope:replacement_mother
+                    }
+                }
+                else_if = {
+                    limit = {
+                        father = {
+                            any_spouse = {
+                                this = mother
+                                matrilinear_marriage = no
+                            }
+                        }
+                    }
+                    scope:replacement_father = {
+                        marry = scope:replacement_mother
+                    }
+                }
+                else_if = {
+                    limit = {
+                        father = {
+                            any_concubine = {
+                                this = mother
+                            }
+                        }
+                    }
+                    scope:replacement_father = {
+                        make_concubine = scope:replacement_mother
+                    }
+                }
+                else_if = {
+                    limit = {
+                        mother = {
+                            any_concubine = {
+                                this = father
+                            }
+                        }
+                    }
+                    scope:replacement_mother = {
+                        make_concubine = scope:replacement_father
+                    }
+                }
+            }
+            
+            if = {
+                limit = {
+                    exists = father
+                    exists = real_father
+                    father = real_father
+                }
+                set_father = scope:replacement_father
+                set_real_father = scope:replacement_father
+            } 
+            else = {
+                if = {
+                    limit = {
+                        exists = father
+                    }
+                    set_father = scope:replacement_father
+                }
+                if = {
+                    limit = {
+                        exists = real_father
+                    }
+                    set_real_father = scope:replacement_real_father
+                }
+            }
+            if = {
+                limit = {
+                    exists = mother
+                }
+                set_mother = scope:replacement_mother
+            }
+            if = {
+                limit = {
+                    is_alive = yes
+                }
+                death = natural
+            }
+            scope:replacement_father = {
+                death = natural
+            }
+            scope:replacement_real_father = {
+                death = natural
+            }
+            scope:replacement_mother = {
+                death = natural
+            }
+            scope:dummy = {
+                death = natural
+            }
+
+        }
+    }
+}
+
+
+spouse_designer_divorce_spouse = {
+    scope = character
+    saved_scopes = {spouse}
+	is_shown = {
+        exists = scope:spouse
+	}
+    is_valid = {	
+        is_alive = yes
+        NOT = {has_variable = spouse_designer_is_created_spouse}
+        exists = scope:spouse
+        scope:spouse = {
+			is_alive = yes
+            NOT = {is_landed = yes}
+        }
+    }    
+    effect = {
+        divorce = scope:spouse
+    }
+}

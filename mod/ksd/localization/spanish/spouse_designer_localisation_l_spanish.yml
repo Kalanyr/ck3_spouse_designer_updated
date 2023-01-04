@@ -1,0 +1,16 @@
+﻿l_spanish:
+unlanded_female:1 " "
+unlanded_male:1 " "
+unlanded:1 " "
+SPOUSE_DESIGNER_SPOUSE:1 "Cónyuge"
+SPOUSE_DESIGNER_PARENTS:1 "Padres:"
+SPOUSE_DESIGNER_CHILDREN:1 "Hijos:"
+SPOUSE_DESIGNER_CHILDREN_desc:1 "Por motivos técnicos, solo se pueden mostrar los hijos de la misma casa que este personaje o su cónyuge actual.:"
+SPOUSE_DESIGNER_ADD_CHILDREN:1 "Agregar niños"
+SPOUSE_DESIGNER_EDIT_FAMILY:1 "Editar familia"
+SPOUSE_DESIGNER_ADD_SPOUSE:1 "Agregar cónyuge"
+SPOUSE_DESIGNER_DIVORCE:1 "Divorcio"
+SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE:1 "Matrimonio matrilineal"
+SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE_desc:1 "Si está marcado, es un matrimonio matrilineal".
+SPOUSE_DESIGNER_OPEN:1 "Diseñador de cónyuge abierto"
+RULER_DESIGNER_FULL_UNLANDED_NAME:2 "[RulerDesignerWindow.GetTitleTierName] #high [RulerDesignerWindow.GetFirstName] [RulerDesignerWindow.GetDynastyName]#!"

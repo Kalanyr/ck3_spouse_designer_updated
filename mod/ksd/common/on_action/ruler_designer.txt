@@ -1,0 +1,106 @@
+﻿# Root = New character after being made
+on_ruler_designer_finished = {
+	events = {
+		spouse_designer.1 
+	}
+	# effect = {
+
+    #     if = {
+    #         limit = {
+    #             has_global_variable = spouse_designer
+    #         }
+    #         set_variable = spouse_designer_is_created_spouse
+    #         global_var:spouse_designer_root_char = {
+    #             divorce = primary_spouse
+    #             marry = ROOT
+    #         }
+    #         remove_global_variable = spouse_designer
+    #     }
+	# 	else_if = {
+	# 		limit = {
+    #             has_global_variable = spouse_designer_child
+    #         }
+	# 		set_variable = spouse_designer_is_created_child
+	# 		if = {
+	# 			limit = {exists = global_var:spouse_designer_replaced_child.father}
+	# 			set_father = global_var:spouse_designer_replaced_child.father
+	# 		}
+	# 		if = {
+	# 			limit = {exists = global_var:spouse_designer_replaced_child.mother}
+	# 			set_mother = global_var:spouse_designer_replaced_child.mother
+	# 		}
+	# 		global_var:spouse_designer_replaced_child = {
+	# 			every_child = {
+	# 				if = {
+	# 					limit = {ROOT = {is_female = yes}}
+	# 					set_mother = ROOT
+	# 				}
+	# 				else = {
+	# 					set_father = ROOT
+	# 				}
+	# 			}
+	# 			if = {
+	# 				limit = {exists = primary_spouse}
+	# 				primary_spouse = {
+	# 					divorce = global_var:spouse_designer_replaced_child
+	# 					marry = ROOT
+	# 				}
+	# 			}
+	# 		}
+
+	# 		if = {
+	# 			limit = {
+	# 				global_var:spouse_designer_root_char = {is_female = yes}
+	# 			}
+	# 			set_mother = global_var:spouse_designer_root_char
+	# 			if = {
+	# 				limit = {exists = global_var:spouse_designer_root_char.primary_spouse}
+	# 				set_father = global_var:spouse_designer_root_char.primary_spouse
+	# 			}
+	# 		}
+	# 		if = {
+	# 			limit = {
+	# 				global_var:spouse_designer_root_char = {is_female = no}
+	# 			}
+	# 			set_father = global_var:spouse_designer_root_char
+	# 			if = {
+	# 				limit = {exists = global_var:spouse_designer_root_char.primary_spouse}
+	# 				set_mother = global_var:spouse_designer_root_char.primary_spouse
+	# 			}
+	# 		}
+	# 		set_house = global_var:spouse_designer_replaced_child.house
+    #         global_var:spouse_designer_replaced_child = {
+	# 			create_character = {
+	#                 age = 42
+	#                 gender = male
+	# 				dynasty = generate
+	# 				employer = global_var:spouse_designer_root_char.liege
+	#                 after_creation = {
+	#                     save_temporary_scope_as = replacement_father
+	#                 }
+	#             }
+	# 			create_character = {
+	#                 age = 42
+	#                 gender = female
+	# 				dynasty = generate
+	# 				employer = global_var:spouse_designer_root_char.liege
+	#                 after_creation = {
+	#                     save_temporary_scope_as = replacement_mother
+	#                 }
+	#             }
+    #             set_father = scope:replacement_father
+    #             set_mother = scope:replacement_mother
+	# 			set_house = scope:replacement_father.house
+	# 			death = natural
+	# 			scope:replacement_father = {
+	# 				death = natural
+	# 			}
+	# 			scope:replacement_mother = {
+	# 				death = natural
+	# 			}
+
+    #         }
+    #         remove_global_variable = spouse_designer
+	# 	}
+    # }
+}
