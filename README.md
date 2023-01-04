@@ -1,6 +1,6 @@
 # A Spouse Designer for 1.8 aka ksd aka spouse_designer_updated
 
-This is a version of Lrds' <a href=h"ttps://steamcommunity.com/sharedfiles/filedetails/?id=2298410092" target="_blank"> A Spouse Designer</a> updated for 1.8.* and later.
+This is a version of Lrds' <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2298410092" target="_blank"> A Spouse Designer</a> updated for 1.8.* and later.
 
 Presently this is a work in progress, so some crashes may happen and their may be errors reported in the error.log. Please let me know about such.  
 
