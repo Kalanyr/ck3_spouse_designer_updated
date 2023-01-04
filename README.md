@@ -1,4 +1,4 @@
-# A Spouse Designer for 1.8 aka ksd aka spouse_designer_updated
+# A Spouse Designer for CK3 / Crusader Kings 3 version 1.8 aka ksd aka spouse_designer_updated
 
 This is a version of Lrds' <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=2298410092" target="_blank"> A Spouse Designer</a> updated for 1.8.* and later.
 
