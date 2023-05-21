@@ -1,4 +1,7 @@
 ﻿asd_edit_game_after_start = {
+	categories = {
+		game_modes historicity difficulty
+	}
 	default = asd_edit_game_after_start_disabled
 	asd_edit_game_after_start_disabled = {
 	
@@ -6,12 +9,15 @@
 
 	asd_edit_game_after_start_enabled = {
         flag = "asd_edit_game_after_start"
-	
+		flag = blocks_achievements	
 	}
 	
 }
 
 asd_edit_restriction = {
+	categories = {
+		game_modes historicity difficulty
+	}
 	default = asd_edit_restriction_standard
 	asd_edit_restriction_standard = {
 	
@@ -19,11 +25,13 @@ asd_edit_restriction = {
 	
 	asd_edit_restriction_unplayable = {
 		#flag = "asd_edit_restriction_unplayable"
+		flag = blocks_achievements
 	}
 
 	asd_edit_restriction_unlanded = {
         #flag = "asd_edit_restriction_unplayable"	
-        #flag = "asd_edit_restriction_unlanded"	
+        #flag = "asd_edit_restriction_unlanded"
+		flag = blocks_achievements
 	}
 }
 

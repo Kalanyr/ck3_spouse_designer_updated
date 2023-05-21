@@ -664,10 +664,9 @@ spouse_designer_create_child = {
             if = {
                 #If character is a child and other parent exists and is alive put them together
                 limit = {
-                    exists = scope:spouse
-                    scope:spouse = {
+                    scope:spouse ?= {
                         is_alive = yes
-                    }
+					}
                     scope:generated_child = {
                         is_adult = no
                     }
@@ -715,6 +714,7 @@ spouse_designer_create_child = {
         if = {
             limit = {
                 exists = scope:employer
+                scope:generated_child.employer ?= { NOT = { this = scope:employer } }
             }
             scope:generated_child = {
                 set_employer = scope:employer
@@ -727,8 +727,7 @@ spouse_designer_activate = {
     is_shown = {
         is_alive = yes
         NOT = {has_variable = spouse_designer_is_created_spouse}
-        exists = primary_spouse
-        primary_spouse = {
+        primary_spouse ?= {
             NOT = {is_landed = yes}
         }
     }
@@ -750,19 +749,17 @@ spouse_designer_add_placeholder_title = {
                     is_ruler = no
                 }
             }
-            if = {
-                limit = {
-                    exists = primary_title
-                }
-                primary_title = {
-                    save_scope_as = placeholder_source_title
-                }
-            } 
-            else = {
+			primary_title ?= {
+				save_scope_as = placeholder_source_title
+			}
+			if = {
+				limit = {
+					NOT = { exists = scope:placeholder_source_title }
+				}
                 scope:family_member.location.county = {
                     save_scope_as = placeholder_source_title
                 }
-            }
+			}
             # Create a new title for the family_member.
             create_dynamic_title = {
                 tier = duchy
@@ -883,8 +880,7 @@ spouse_designer_children_activate = {
     scope = character
     saved_scopes = {child}
     is_shown = {
-        exists = scope:child
-        scope:child = {
+        scope:child ?= {
             NOT = { is_landed = yes }
         }
     }
@@ -1001,14 +997,13 @@ spouse_designer_remove_child = {
     scope = character
     saved_scopes = {child}
     is_shown = {
-        exists = scope:child
-        scope:child = {
-            NOT = { is_landed = yes }
-            any_child = {
-                even_if_dead = yes
-                count = 0
-            }
-        }
+		scope:child ?= {
+			NOT = { is_landed = yes }
+			any_child = {
+				even_if_dead = yes
+				count = 0
+			}
+		}
     }
     effect = {
         if = {
@@ -1135,8 +1130,7 @@ spouse_designer_remove_child = {
             }
             if = {
                 limit = {
-                    exists = mother
-                    mother = {
+                    mother ?= {
                         is_lowborn = yes
                     }
                 }
@@ -1146,8 +1140,7 @@ spouse_designer_remove_child = {
             }
             if = {
                 limit = {
-                    exists = father
-                    father = {
+                    father ?= {
                         is_lowborn = yes
                     }
                 }
@@ -1157,8 +1150,7 @@ spouse_designer_remove_child = {
             }
             if = {
                 limit = {
-                    exists = real_father
-                    real_father = {
+                    real_father ?= {
                         is_lowborn = yes
                     }
                 }
@@ -1168,10 +1160,8 @@ spouse_designer_remove_child = {
             }
             if = {
                 limit = {
-                    exists = mother
-                    exists = father
-                    mother = { is_lowborn = no }
-                    father = { is_lowborn = no }
+                    mother ?= { is_lowborn = no }
+                    father ?= { is_lowborn = no }
                     mother.house = father.house
                 }
                 scope:replacement_father = {
@@ -1180,10 +1170,8 @@ spouse_designer_remove_child = {
             }
             if = {
                 limit = {
-                    exists = mother
-                    exists = real_father
-                    mother = { is_lowborn = no }
-                    real_father = { is_lowborn = no }
+                    mother ?= { is_lowborn = no }
+                    real_father ?= { is_lowborn = no }
                     mother.house = real_father.house
                 }
                 scope:replacement_real_father = {
@@ -1192,10 +1180,8 @@ spouse_designer_remove_child = {
             }
             if = {
                 limit = {
-                    exists = father
-                    exists = real_father
-                    father = { is_lowborn = no }
-                    real_father = { is_lowborn = no }
+                    father ?= { is_lowborn = no }
+                    real_father ?= { is_lowborn = no }
                     father.house = real_father.house
                 }
                 scope:replacement_real_father = {
@@ -1204,27 +1190,24 @@ spouse_designer_remove_child = {
             }
             if = {
                 limit = {
-                    exists = father
                     is_lowborn = no
-                    father = { is_lowborn = no }
+                    father ?= { is_lowborn = no }
                     house = father.house
                 }
                 set_house = scope:replacement_father.house
             } 
             else_if = {
                 limit = {
-                    exists = real_father
                     is_lowborn = no
-                    real_father = { is_lowborn = no }
+                    real_father ?= { is_lowborn = no }
                     house = real_father.house
                 }
                 set_house = scope:replacement_real_father.house
             }
             else_if = {
                 limit = {
-                    exists = mother
                     is_lowborn = no
-                    mother = { is_lowborn = no }
+                    mother ?= { is_lowborn = no }
                     house = mother.house
                 }
                 set_house = scope:replacement_mother.house
@@ -1294,9 +1277,8 @@ spouse_designer_remove_child = {
             
             if = {
                 limit = {
-                    exists = father
                     exists = real_father
-                    father = real_father
+                    father ?= real_father
                 }
                 set_father = scope:replacement_father
                 set_real_father = scope:replacement_father
@@ -1354,8 +1336,7 @@ spouse_designer_divorce_spouse = {
     is_valid = {	
         is_alive = yes
         NOT = {has_variable = spouse_designer_is_created_spouse}
-        exists = scope:spouse
-        scope:spouse = {
+        scope:spouse ?= {
 			is_alive = yes
             NOT = {is_landed = yes}
         }

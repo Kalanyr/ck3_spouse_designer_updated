@@ -1,10 +1,10 @@
-version="1.2"
+version="1.3"
 tags={
 	"Gameplay"
 	"Portraits"
 	"Utilities"
 	"Alternative History"
 }
-name="A Spouse Designer for 1.8.*"
-supported_version="1.8.*"
+name="A Spouse Designer for 1.9.*"
+supported_version="1.9.*"
 path="mod/ksd"

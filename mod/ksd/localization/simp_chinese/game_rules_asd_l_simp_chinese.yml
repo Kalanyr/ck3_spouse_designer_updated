@@ -1,0 +1,14 @@
+﻿l_simp_chinese:
+ rule_asd_edit_game_after_start:0 "#V 配偶编辑器: #! 游戏开始后的编辑"
+ setting_asd_edit_game_after_start_disabled:0 "禁用"
+ setting_asd_edit_game_after_start_disabled_desc:0 "禁用."
+ setting_asd_edit_game_after_start_enabled:0 "#high 启用 #!"
+ setting_asd_edit_game_after_start_enabled_desc:0 "规则 / 配偶 / 家庭 编辑器 可以在游戏开始后使用！"
+
+ rule_asd_edit_restriction:0 "#V 配偶编辑器: #! 可编辑的人物"
+ setting_asd_edit_restriction_standard:0 "领主"
+ setting_asd_edit_restriction_standard_desc:0 "领主和他们的配偶/家庭可以被编辑"
+ setting_asd_edit_restriction_unplayable:0 "#high 宫廷成员 #!"
+ setting_asd_edit_restriction_unplayable_desc:0 "宫廷成员和他们的配偶/家庭可以被编辑"
+ setting_asd_edit_restriction_unlanded:0 "#high 任意 #!"
+ setting_asd_edit_restriction_unlanded_desc:0 "任意角色和他们的配偶/家庭可以被编辑"
