@@ -1,0 +1,8 @@
+﻿namespace = spouse_designer
+
+spouse_designer.2 = {
+    type = character_event
+    hidden = yes
+    option = {
+	}
+}

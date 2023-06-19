@@ -1,0 +1,2 @@
+﻿#value to change in submod
+spouse_designer_display_nudity_toggle = 0

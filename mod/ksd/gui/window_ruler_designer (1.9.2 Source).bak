@@ -32,38 +32,12 @@ window = {
 		on_start = "[GetVariableSystem.Clear( 'appearance_customization_side_tab_open' )]"
 		on_start = "[GetVariableSystem.Clear( 'appearance_customization_portrait_view' )]"
 		on_start = "[GetVariableSystem.Clear( 'coat_of_arms_customization_open' )]"
-		on_start = "[GetVariableSystem.Set( 'ksd_refresh_done', 'true' )]"
 		using = CoatOfArmsDesignerAnimationResetState
 	}
 
 	state = {
 		name = _hide
 		using = Animation_FadeOut_Standard
-	}
-
-	state = {
-		name = show_naked_initialize
-		trigger_on_create = no
-		trigger_when = "[GetScriptedGui('spouse_designer_get_show_naked').IsValid( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope('age_check',MakeScopeBool(Or(And(RulerDesignerWindow.IsFemale,GreaterThanOrEqualTo_int32(RulerDesignerWindow.GetAge,GetDefine( 'NPortrait', 'PORTRAIT_FEMALE_ADULT_AGE' ))),And(Not(RulerDesignerWindow.IsFemale),GreaterThanOrEqualTo_int32(RulerDesignerWindow.GetAge,GetDefine( 'NPortrait', 'PORTRAIT_MALE_ADULT_AGE' )))))).End)]"
-		on_start = "[GetScriptedGui('spouse_designer_get_show_naked').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope('age_check',MakeScopeBool(Or(And(RulerDesignerWindow.IsFemale,GreaterThanOrEqualTo_int32(RulerDesignerWindow.GetAge,GetDefine( 'NPortrait', 'PORTRAIT_FEMALE_ADULT_AGE' ))),And(Not(RulerDesignerWindow.IsFemale),GreaterThanOrEqualTo_int32(RulerDesignerWindow.GetAge,GetDefine( 'NPortrait', 'PORTRAIT_MALE_ADULT_AGE' )))))).End)]"
-		on_start = "[VariableSystem.Clear( 'ksd_refresh_done' )]"
-
-	}
-
-	state = {
-		name = show_naked_initialize_2
-		trigger_on_create = no
-		trigger_when = "[Not(VariableSystem.Exists( 'ksd_refresh_done' ))]"
-		on_start = "[RulerDesignerWindow.ToggleShowAccessories]"
-		on_start = "[RulerDesignerWindow.ToggleShowAccessories]"
-		on_start = "[VariableSystem.Set( 'ksd_refresh_done', 'true' )]"
-	}
-
-	state = {
-		name = show_naked_initialize_3
-		trigger_on_create = no
-		trigger_when = "[GetScriptedGui('spouse_designer_show_nudity_enabled').IsValid(GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
-		on_start = "[GetScriptedGui('spouse_designer_show_nudity_enabled').Execute(GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
 	}
 
 	vbox = {
@@ -569,7 +543,6 @@ window = {
 								vbox = {
 									name = "realm"
 									layoutpolicy_horizontal = expanding
-									visible = "[GetScriptedGui('spouse_designer_show_realm').IsShown( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
 									datacontext = "[RulerDesignerWindow.GetCharacterToOverwrite]"
 									datacontext = "[Character.GetPrimaryTitle]"
 									datacontext = "[RulerDesignerWindow.GetTitleCoatOfArms]"
@@ -700,7 +673,6 @@ window = {
 							}
 						}
 						button_standard_back = {
-                            onclick = "[GetScriptedGui('spouse_designer_remove_placeholder_title').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
 							onclick = "[RulerDesignerWindow.Close]"
 							shortcut = "close_window"
 
@@ -1006,28 +978,6 @@ window = {
 					}
 				}
 
-
-				button_checkbox_label = {
-					visible = "[GetScriptedGui('spouse_designer_show_nudity_enabled').IsShown(GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
-					parentanchor = bottom|hcenter
-					layoutpolicy_horizontal = expanding
-					position = { 170 -10 }
-					datacontext = "[GetScriptedGui('spouse_designer_set_show_naked')]"
-					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
-					tooltip = SPOUSE_DESIGNER_SHOW_NAKED_desc
-
-					blockoverride "checkbox"
-					{
-						checked = "[ScriptedGui.IsShown( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
-					}
-
-					blockoverride "text"
-					{
-						text = SPOUSE_DESIGNER_SHOW_NAKED
-					}
-				}
-
-
 				button_standard = {
 					parentanchor = bottom|hcenter
 					size = { 250 45 }
@@ -1041,22 +991,11 @@ window = {
 					parentanchor = bottom|hcenter
 					position = { 0 -80 }
 					text = "RULER_DESIGNER_FULL_NAME"
-					visible = "[And(GetScriptedGui('spouse_designer_show_full_title').IsShown( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End),Not( StringIsEmpty( RulerDesignerWindow.GetFirstName ) ))]"
 					using = Font_Size_Big
 					autoresize = yes
 					max_width = 550
 					multiline = yes
-					using = Animation_ShowHide_Standard
-				}
-				text_label_center = {
-					parentanchor = bottom|hcenter
-					position = { 0 -80 }
-					text = "RULER_DESIGNER_FULL_UNLANDED_NAME"
-					visible = "[And(Not(GetScriptedGui('spouse_designer_show_full_title').IsShown( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)),Not( StringIsEmpty( RulerDesignerWindow.GetFirstName ) ))]"
-					using = Font_Size_Big
-					autoresize = yes
-					max_width = 550
-					multiline = yes
+					visible = "[Not( StringIsEmpty( RulerDesignerWindow.GetFirstName ) )]"
 					using = Animation_ShowHide_Standard
 				}
 			}
@@ -2091,26 +2030,6 @@ window = {
 
 					state = {
 						using = Animation_Refresh_FadeIn
-					}
-				}
-
-				button_checkbox_label = {
-					visible = "[GetScriptedGui('spouse_designer_show_nudity_enabled').IsShown(GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
-					parentanchor = bottom|hcenter
-					layoutpolicy_horizontal = expanding
-					position = { 0 10 }
-					datacontext = "[GetScriptedGui('spouse_designer_set_show_naked')]"
-					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
-					tooltip = SPOUSE_DESIGNER_SHOW_NAKED_desc
-
-					blockoverride "checkbox"
-					{
-						checked = "[ScriptedGui.IsShown( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)]"
-					}
-
-					blockoverride "text"
-					{
-						text = SPOUSE_DESIGNER_SHOW_NAKED
 					}
 				}
 

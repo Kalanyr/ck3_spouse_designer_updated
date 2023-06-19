@@ -1,0 +1,6 @@
+﻿portrait_ruler_designer_naked_trigger = {
+	exists = scope:ruler_designer
+	has_global_variable = show_ruler_designer_naked
+	global_var:show_ruler_designer_naked = yes
+}
+

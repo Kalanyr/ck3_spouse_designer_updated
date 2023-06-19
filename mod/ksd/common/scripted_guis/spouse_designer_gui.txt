@@ -71,6 +71,109 @@
     }
 }
 
+spouse_designer_get_show_naked = {
+	scope = character
+	saved_scopes = {
+		age_check
+	}
+	is_valid = {
+		#always = yes
+		OR = {
+			NOT = { has_global_variable = ksd_stored_age_check}
+			NOT = { scope:age_check = global_var:ksd_stored_age_check }
+			NOT = {
+				OR = {
+					AND = {
+						has_global_variable = ksd_gui_show_naked_toggle
+						has_global_variable = ksd_gui_show_naked_toggle_check
+					}
+					AND = {
+						NOT = { has_global_variable = ksd_gui_show_naked_toggle } 
+						NOT = { has_global_variable = ksd_gui_show_naked_toggle_check }
+					}
+				}
+			}
+		}		
+	}
+	is_shown = {
+		has_global_variable = show_ruler_designer_naked
+		global_var:show_ruler_designer_naked = yes
+	}
+	effect = {
+		if = {
+			limit = {
+				has_global_variable = ksd_gui_show_naked_toggle
+				scope:age_check = yes
+			}
+			if = {
+				limit= {
+					OR = {
+						NOT = { has_global_variable = show_ruler_designer_naked }
+						global_var:show_ruler_designer_naked = no
+					}
+				}
+				set_global_variable = {
+					name = show_ruler_designer_naked
+					value = yes
+				}
+			}
+		}
+		else = {
+			if = {
+				limit= {
+					OR = {
+						NOT = { has_global_variable = show_ruler_designer_naked }
+						global_var:show_ruler_designer_naked = yes
+					}				
+				}
+				set_global_variable = {
+					name = show_ruler_designer_naked
+					value = no
+				}
+			}
+		}
+		set_global_variable = {
+			name = ksd_stored_age_check
+			value = scope:age_check
+		}
+		if = {
+			limit = {
+				has_global_variable = ksd_gui_show_naked_toggle
+				NOT = { has_global_variable = ksd_gui_show_naked_toggle_check }
+			}
+			set_global_variable = ksd_gui_show_naked_toggle_check
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = ksd_gui_show_naked_toggle }
+				has_global_variable = ksd_gui_show_naked_toggle_check
+			}
+			remove_global_variable = ksd_gui_show_naked_toggle_check
+		}
+	}
+}
+
+
+spouse_designer_set_show_naked = {
+	scope = character
+	is_shown = {
+		has_global_variable = ksd_gui_show_naked_toggle
+	}
+
+	effect = {
+		if = {
+			limit = {
+				has_global_variable = ksd_gui_show_naked_toggle
+			}
+			remove_global_variable = ksd_gui_show_naked_toggle
+		}
+		else = {
+			set_global_variable = ksd_gui_show_naked_toggle
+		}
+	}
+}
+
+
 spouse_designer_create_child = {
     scope = character
     is_shown = {
@@ -925,7 +1028,7 @@ spouse_designer_matrilineal_marriage = {
             save_temporary_scope_as = spouse
         }
         if = {
-            limit = {matrilinear_marriage  =yes}
+            limit = {matrilinear_marriage = yes}
             divorce = scope:spouse
             marry = scope:spouse
         }
@@ -1326,6 +1429,25 @@ spouse_designer_remove_child = {
     }
 }
 
+spouse_designer_show_nudity_enabled = {
+	scope = character
+	is_valid = {
+		OR = {
+			NOT = { has_global_variable = spouse_designer_show_nudity_enabled }
+			NOT = { global_var:spouse_designer_show_nudity_enabled =  spouse_designer_display_nudity_toggle }
+		}
+	}
+	is_shown = {
+		has_global_variable = spouse_designer_show_nudity_enabled
+		global_var:spouse_designer_show_nudity_enabled = spouse_designer_display_nudity_enabled
+	}
+	effect = {
+		set_global_variable = {
+			name = spouse_designer_show_nudity_enabled
+			value = spouse_designer_display_nudity_toggle
+		}
+	}
+}
 
 spouse_designer_divorce_spouse = {
     scope = character

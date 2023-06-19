@@ -1723,10 +1723,10 @@ window = {
 
 						achievements_availability_box = {
 							blockoverride "achievements_enabled_visible" {
-								visible = "[LessThanOrEqualTo_int32( RulerDesignerWindow.GetPointsUsed, GetDefine( 'NRulerDesigner', 'IRONMAN_POINT_MAX' ) )]"
+								visible = "[And( IsIronmanEnabled, LessThanOrEqualTo_int32( RulerDesignerWindow.GetPointsUsed, GetDefine( 'NRulerDesigner', 'IRONMAN_POINT_MAX' ) ) )]"
 							}
 							blockoverride "achievements_disabled_visible" {
-								visible = "[GreaterThan_int32( RulerDesignerWindow.GetPointsUsed, GetDefine( 'NRulerDesigner', 'IRONMAN_POINT_MAX' ) )]"
+								visible = "[Or( Not( IsIronmanEnabled ), GreaterThan_int32( RulerDesignerWindow.GetPointsUsed, GetDefine( 'NRulerDesigner', 'IRONMAN_POINT_MAX' ) ) )]"
 							}
 						}
 					}

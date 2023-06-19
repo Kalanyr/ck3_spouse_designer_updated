@@ -1,0 +1,54 @@
+﻿
+
+clothes = { # Special group for the ruler designer only. The game expects this to be named "clothes"
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 20
+
+    ruler_designer_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = western_bedchamber
+                range = { 0 1 }
+            }
+            morph = {
+                mode = modify_multiply
+                gene = gene_bs_bust
+                value = 0.8 # Setting this lower to reduce the exaggerated effect of large bust size when wearing clothes
+                template = bust_clothes
+            }    
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                portrait_ruler_designer_trigger = yes
+                portrait_ruler_designer_naked_trigger = no
+            }
+        }
+    }   
+
+    ruler_designer_clothes2 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = no_clothes
+                range = { 0 1 }
+            } 
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                portrait_ruler_designer_trigger = yes
+                portrait_ruler_designer_naked_trigger = yes
+            }
+        }
+    }    
+}
+
+

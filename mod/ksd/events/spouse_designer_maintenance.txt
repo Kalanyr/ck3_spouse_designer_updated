@@ -152,6 +152,6 @@ spouse_designer.1 = {
 			}
 			# Have some Hajjaj
 			add_trait = hajjaj
-		}		
+		}
 	}
 }

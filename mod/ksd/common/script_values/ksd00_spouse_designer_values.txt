@@ -1,0 +1,2 @@
+﻿#Value that makes it visible
+spouse_designer_display_nudity_enabled = 1
