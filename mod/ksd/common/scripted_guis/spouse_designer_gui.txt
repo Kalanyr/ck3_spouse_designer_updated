@@ -760,6 +760,7 @@ spouse_designer_create_child = {
                 save_scope_as = generated_child
             }   
         }
+
         if = {
             limit = {
                 is_alive = no
@@ -774,9 +775,6 @@ spouse_designer_create_child = {
                         is_adult = no
                     }
                 }
-                scope:generated_child = {
-                    move_to_pool_at = scope:spouse.location
-                }
                 if = {
                     limit = {
                         scope:spouse = {
@@ -784,7 +782,10 @@ spouse_designer_create_child = {
                                 is_ruler = yes
                                 AND = {
                                     is_ruler = no
-                                    exists = liege
+									OR = {
+										exists = liege
+										exists = employer
+									}
                                 }
                             }
                         }
@@ -792,44 +793,124 @@ spouse_designer_create_child = {
                     scope:spouse = {
                         if = {
                              limit = {
-                                 is_ruler = no
+                                 is_ruler = yes
+                             }
+                             save_temporary_scope_as = employer
+                        }
+                        else_if = {
+                             limit = {
                                  exists = liege
                              }
                              liege = {
                                  save_temporary_scope_as = employer
                              }
                         }
+                        else_if = {
+                             limit = {
+                                 exists = employer
+                             }
+                             employer = {
+                                 save_temporary_scope_as = employer
+                             }
+                        }
+						else = {
+							scope:generated_child = {
+								move_to_pool_at = scope:spouse.location
+							}
+						}
                     }
                 }
             }
         }
         else = {
-           if = {
-                limit = {
-                    is_ruler = no
-                    exists = liege
-                }
-                liege = {
-                    save_temporary_scope_as = employer
-                }
-            }
+			scope:generated_child = {
+				move_to_pool_at = location
+			}
+			if = {
+				limit = {
+					OR = {
+						is_ruler = yes
+						AND = {
+							is_ruler = no
+							OR = {
+								exists = liege
+								exists = employer
+							}
+						}
+					}
+				}
+				
+				if = {
+					 limit = {
+						 is_ruler = yes
+					 }
+					 save_temporary_scope_as = employer
+				}
+				else_if = {
+					 limit = {
+						 exists = liege
+					 }
+					 liege = {
+						 save_temporary_scope_as = employer
+					 }
+				}
+				else_if = {
+					 limit = {
+						 exists = employer
+					 }
+					 employer = {
+						 save_temporary_scope_as = employer
+					 }
+				}
+				else = {
+					scope:generated_child = {
+						move_to_pool_at = prev.location
+					}
+				}
+			}
         }
         if = {
             limit = {
                 exists = scope:employer
-                scope:generated_child.employer ?= { NOT = { this = scope:employer } }
+				OR = {
+					NOT = { exists = scope:generated_child.employer }
+					NOT = { scope:generated_child.employer = scope:employer }
+				}
             }
             scope:generated_child = {
                 set_employer = scope:employer
             }
         }
+
+		
+		#Setup child as a guest if not employed and there's a court at their location
+		scope:generated_child = {
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							exists = employer
+							exists = liege
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					exists = location.barony_controller
+				}
+				location.barony_controller = {
+					add_visiting_courtier = scope:generated_child
+				}
+			}
+		}
     }
 }
 spouse_designer_activate = {
     scope = character
     is_shown = {
         is_alive = yes
-        NOT = {has_variable = spouse_designer_is_created_spouse}
+        NOT = { has_variable = spouse_designer_is_created_spouse }
         primary_spouse ?= {
             NOT = {is_landed = yes}
         }
@@ -990,6 +1071,21 @@ spouse_designer_children_activate = {
     effect = {
         set_global_variable = {name = spouse_designer_root_char value = ROOT}
         set_global_variable = {name = spouse_designer_replaced_child value = scope:child}
+		#Need to save Location/Employer now because these get nuked by the Temporary Title.
+		remove_global_variable = spouse_designer_replaced_child_employer
+		if = {
+			limit = {
+				exists = scope:child.employer
+			}
+			set_global_variable = {name = spouse_designer_replaced_child_employer value = scope:child.employer}
+		}
+		remove_global_variable = spouse_designer_replaced_child_location
+		if = {
+			limit = {
+				exists = scope:child.location
+			}
+			set_global_variable = {name = spouse_designer_replaced_child_location value = scope:child.location}
+		}
         remove_global_variable = spouse_designer
         set_global_variable = spouse_designer_child
     }

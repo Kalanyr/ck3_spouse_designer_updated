@@ -69,6 +69,7 @@ spouse_designer.1 = {
 				}
 			}
 
+
 			if = {
 				limit = {
 					global_var:spouse_designer_root_char = {is_female = yes}
@@ -90,6 +91,35 @@ spouse_designer.1 = {
 				}
 			}
 			set_house = global_var:spouse_designer_replaced_child.house
+			if = {
+				limit = { exists = global_var:spouse_designer_replaced_child_location }
+				set_location = global_var:spouse_designer_replaced_child_location
+			}
+			if = {
+				limit = { exists = global_var:spouse_designer_replaced_child_employer }
+				set_employer = global_var:spouse_designer_replaced_child_employer
+			}
+			#Setup child as a guest if not employed and there's a court at their location
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							exists = employer
+							exists = liege
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					exists = location.barony_controller
+				}
+				location.barony_controller = {
+					add_visiting_courtier = prev
+				}
+			}
+
+			
             global_var:spouse_designer_replaced_child = {
 				create_character = {
 	                age = 42
