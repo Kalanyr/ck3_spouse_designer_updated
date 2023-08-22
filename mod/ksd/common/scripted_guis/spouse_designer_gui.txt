@@ -294,7 +294,7 @@ spouse_designer_create_child = {
                     }
                     ordered_child = {
                         even_if_dead = yes
-                        min = 1
+                        min = 0
                         value = age
                         if = {
                             limit = {
@@ -308,7 +308,7 @@ spouse_designer_create_child = {
                         }
                         subtract = { 1 15 }
                     }
-                } 
+                }
                 else = {
                     value = age 
                     subtract = 17

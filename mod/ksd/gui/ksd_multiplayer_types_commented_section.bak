@@ -1,0 +1,147 @@
+		#vbox = {
+		#	name = "spouse_designer_spouse_tab"
+		#	visible = [LobbyView.GetSelectedPlayable.GetCharacter.IsValid]
+		#	layoutpolicy_horizontal = expanding
+		#	layoutpolicy_vertical = expanding
+		#	text_single = {
+		#			visible = "[GetScriptedGui('spouse_designer_is_married').IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+		#			text = "[LobbyView.GetSelectedPlayable.GetCharacter.GetPrimarySpouse.GetTitledFirstNameNoTooltip]"
+		#			using = Font_Size_Small
+		#			default_format = "#high"
+		#	}
+		#	hbox = {
+		#		margin = {10 10}
+		#		layoutpolicy_horizontal = expanding
+		#		layoutpolicy_vertical = expanding
+		#		portrait_head_small = {
+		#			datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter.GetPrimarySpouse]"
+		#			#size = { 160 180 }
+		#
+		#		}
+		#		vbox = {
+		#			layoutpolicy_horizontal = expanding
+		#			layoutpolicy_vertical = expanding
+		#			hbox = {
+		#				layoutpolicy_horizontal = expanding
+		#				button_checkbox_label = {
+		#					layoutpolicy_horizontal = expanding
+		#					visible = "[GetScriptedGui('spouse_designer_is_married').IsShown( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End)]"
+		#					enabled = "[And(Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')),GetScriptedGui('spouse_designer_matrilineal_marriage').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End))]"
+		#					datacontext = "[GetScriptedGui('spouse_designer_matrilineal_marriage')]"
+		#					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End)]"
+		#					tooltip = "SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE_desc"
+		#
+		#					blockoverride "checkbox"
+		#					{
+		#						checked = "[ScriptedGui.IsShown( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End)]"
+		#					}
+		#
+		#					blockoverride "text"
+		#					{
+		#						text = "SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE"
+		#					}
+		#				}
+		#			}
+		#
+		#			spacer = {
+		#				size = {10 10}
+		#			}
+		#			button_standard = {
+		#				#layoutpolicy_vertical = expanding
+		#				layoutpolicy_horizontal = expanding
+		#				datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
+		#				enabled = "[Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))]"
+		#				visible = "[And(Not( IsPreparationLobby ),GetScriptedGui('spouse_designer_create_spouse').IsShown( GuiScope.SetRoot( Character.MakeScope ).End))]"
+		#				onclick = "[GetScriptedGui('spouse_designer_create_spouse').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+		#				text = "SPOUSE_DESIGNER_ADD_SPOUSE"
+		#			}
+		#			button_standard = {
+		#				layoutpolicy_horizontal = expanding
+		#				text = "SPOUSE_DESIGNER_DIVORCE"
+		#				datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
+		#				visible = "[GetScriptedGui('spouse_designer_divorce_spouse').IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+		#				enabled = "[And(Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')),GetScriptedGui('spouse_designer_divorce_spouse').IsValid( GuiScope.SetRoot( Character.MakeScope ).AddScope('spouse',Character.GetPrimarySpouse.MakeScope).End))]"
+		#				onclick = "[GetScriptedGui('spouse_designer_divorce_spouse').Execute( GuiScope.SetRoot( Character.MakeScope ).AddScope('spouse',Character.GetPrimarySpouse.MakeScope).End)]"
+		#			}
+		#			spacer = {
+		#				size = { 5 5 }
+		#			}
+		#			button_standard = {
+		#				#layoutpolicy_vertical = expanding
+		#				layoutpolicy_horizontal = expanding
+		#				datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
+		#				visible = "[And(Not( IsPreparationLobby ), GetScriptedGui('spouse_designer_activate').IsShown( GuiScope.SetRoot( Character.MakeScope ).End) )]"
+		#				enabled = "[Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))]"
+		#				onclick = "[GetScriptedGui('spouse_designer_activate').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+		#				onclick = "[GetScriptedGui('spouse_designer_add_placeholder_title').Execute( GuiScope.SetRoot( Character.MakeScope ).AddScope('family_member',Character.GetPrimarySpouse.MakeScope).End)]"
+		#				onclick = "[TryStartRulerDesigning( Character.GetPrimarySpouse.Self )]"
+		#				text = "SPOUSE_DESIGNER_OPEN"
+		#			}
+		#		}
+		#
+		#	}
+		#}
+		#spacer = {
+		#	size = { 10 10 }
+		#}
+        
+        #vbox = {
+        #    #This box prevents the ScriptedGui check on the nested button being run on the Null character when no character is selected. I have not found another way to do this, as it seems that Paradox does not shortcircuit conditionals in the GUI space.
+        #    visible = "[And(Not( IsPreparationLobby ),LobbyView.GetSelectedPlayable.GetCharacter.IsValid)]"
+        #    button_standard = {
+        #        size = { 380 45 }
+        #        datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
+		#
+        #        visible = "[GetScriptedGui('spouse_designer_visible_for_ruler_designer').IsShown( GuiScope.SetRoot( Character.MakeScope ).End) ]"
+        #        #enabled = "[LobbyView.CanTryStartRulerDesigning( Character.Self )]"
+        #        enabled = "[And(GetScriptedGui('spouse_designer_playable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))) ]"
+		#
+        #        onclick = "[GetScriptedGui('spouse_designer_deactivate').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+        #       onclick = "[GetScriptedGui('spouse_designer_add_placeholder_title').Execute( GuiScope.SetRoot( Character.MakeScope ).AddScope('family_member',Character.MakeScope).End)]"
+        #        onclick = "[TryStartRulerDesigning( Character.Self )]"
+		#
+        #        #tooltip = "[LobbyView.GetTryStartRulerDesigningDesc( Character.Self )]"
+        #        tooltip = "[GetScriptedGui('spouse_designer_playable').BuildTooltip( GuiScope.SetRoot( Character.MakeScope ).End) ]"
+		#
+        #       text = "RULER_DESIGNER_OPEN"
+		#
+        #        icon = {
+        #            #visible = "[And( ShouldPromptForRulerDesigner, LobbyView.CanTryStartRulerDesigning( Character.Self ) )]"
+        #            visible = "[And( ShouldPromptForRulerDesigner, And(GetScriptedGui('spouse_designer_playable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))) )]"
+        #            size = { 100% 100% }
+        #            texture = "gfx/interface/component_masks/mask_fade_circle.dds"
+        #            using = Color_Bright_Yellow
+        #            alpha = 0
+		#
+        #            state = {
+        #                name = a
+        #                next = b
+        #                trigger_on_create = yes
+		#
+        #                alpha = 0.3
+        #                duration = 1
+        #                using = Animation_Curve_Default
+        #            }
+		#
+        #            state = {
+        #                name = b
+        #                next = a
+		#
+        #                alpha = 0
+        #                duration = 2
+        #                using = Animation_Curve_Default
+        #            }
+        #        }
+		#
+        #        button_edit_text = {
+        #            size = { 30 30 }
+        #            parentanchor = left|vcenter
+        #            position = { 5 0 }
+        #            alwaystransparent = yes
+        #        }
+        #    }
+        #}
+
+		#spacer = {
+		#	size = { 10 10 }
+		#}
