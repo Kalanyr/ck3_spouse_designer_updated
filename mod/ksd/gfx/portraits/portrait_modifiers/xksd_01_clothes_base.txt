@@ -39,6 +39,12 @@ clothes = { # Special group for the ruler designer only. The game expects this t
                 template = no_clothes
                 range = { 0 1 }
             } 
+            accessory = {
+                mode = add
+                gene = cloaks
+                template = no_cloak
+                range = { 0 1 } # For the randomness to work correctly
+            }
         }   
         weight = {
             base = 0

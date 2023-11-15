@@ -5,6 +5,6 @@ tags={
 	"Utilities"
 	"Alternative History"
 }
-name="A Spouse Designer for 1.9.*"
-supported_version="1.9.*"
+name="A Spouse Designer for 1.11.*"
+supported_version="1.11.*"
 path="mod/ksd"

@@ -1,0 +1,14 @@
+﻿l_korean:
+ rule_asd_edit_game_after_start:0 "#V Spouse Designer: #! 게임 시작 후 편집"
+ setting_asd_edit_game_after_start_disabled:0 "비활성화"
+ setting_asd_edit_game_after_start_disabled_desc:0 "비활성화"
+ setting_asd_edit_game_after_start_enabled:0 "#high 활성화 #!"
+ setting_asd_edit_game_after_start_enabled_desc:0 "군주 / 배우자 / 가족 디자이너를 게임 시작 후에도 사용할 수 있음"
+
+ rule_asd_edit_restriction:0 "#V Spouse Designer: #! 편집 가능한 인물 범위"
+ setting_asd_edit_restriction_standard:0 "플레이 가능한 군주만"
+ setting_asd_edit_restriction_standard_desc:0 "플레이 가능한 군주와 그 배우자/가족을 편집 가능"
+ setting_asd_edit_restriction_unplayable:0 "#high 모든 군주들 #!" 
+ setting_asd_edit_restriction_unplayable_desc:0 "모든 백작과 그 배우자/가족을 편집 가능"
+ setting_asd_edit_restriction_unlanded:0 "#high 모든 인물 #!" 
+ setting_asd_edit_restriction_unlanded_desc:0 "모든 인물과 그 배우자/가족을 편집 가능"
