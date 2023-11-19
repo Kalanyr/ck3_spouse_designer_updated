@@ -1152,7 +1152,12 @@ spouse_designer_playable = {
             NOT = {
                 AND = {
                     is_landed = no
-                    NOT = { has_game_rule = asd_edit_restriction_unlanded }
+					NOT = { 
+						OR = { 
+							has_game_rule = asd_edit_restriction_unlanded
+							has_game_rule = asd_edit_restriction_unlanded_aa
+						}							
+					}
                 }
             }
 		}
@@ -1162,7 +1167,12 @@ spouse_designer_playable = {
                 AND = {
                     is_landed = yes
                     highest_held_title_tier < tier_county
-                    NOT = { has_game_rule = asd_edit_restriction_unlanded }
+					NOT = { 
+						OR = { 
+							has_game_rule = asd_edit_restriction_unlanded
+							has_game_rule = asd_edit_restriction_unlanded_aa
+						}							
+					}
                 }
             }
 		}
@@ -1173,7 +1183,14 @@ spouse_designer_playable = {
                 AND = {
                     is_landed = yes
                     has_government = theocracy_government
-                    NOT = { has_game_rule = asd_edit_restriction_unplayable }
+					NOT = { 
+						OR = { 
+							has_game_rule = asd_edit_restriction_unplayable
+							has_game_rule = asd_edit_restriction_unplayable_aa
+							has_game_rule = asd_edit_restriction_unlanded
+							has_game_rule = asd_edit_restriction_unlanded_aa
+						}							
+					}
                 }
             }
 		}
@@ -1184,8 +1201,15 @@ spouse_designer_playable = {
                 AND = {
                     is_landed = yes
                     has_government = republic_government
-                    NOT = { has_game_rule = asd_edit_restriction_unplayable }
-                }
+					NOT = { 
+						OR = { 
+							has_game_rule = asd_edit_restriction_unplayable
+							has_game_rule = asd_edit_restriction_unplayable_aa
+							has_game_rule = asd_edit_restriction_unlanded
+							has_game_rule = asd_edit_restriction_unlanded_aa
+						}													
+					}
+				}
             }
 		}
         

@@ -11,6 +11,10 @@
         flag = "asd_edit_game_after_start"
 		flag = blocks_achievements	
 	}
+
+	asd_edit_game_after_start_enabled_aa = {
+        flag = "asd_edit_game_after_start"
+	}
 	
 }
 
@@ -23,16 +27,27 @@ asd_edit_restriction = {
 	
 	}
 	
-	asd_edit_restriction_unplayable = {
+	asd_edit_restriction_unplayable = { 
 		#flag = "asd_edit_restriction_unplayable"
 		flag = blocks_achievements
 	}
 
-	asd_edit_restriction_unlanded = {
+	asd_edit_restriction_unlanded = { #Actually any (includes unplayable AND unlanded)
         #flag = "asd_edit_restriction_unplayable"	
         #flag = "asd_edit_restriction_unlanded"
 		flag = blocks_achievements
 	}
+
+	asd_edit_restriction_unplayable_aa = {
+		#flag = "asd_edit_restriction_unplayable"
+	}
+
+	asd_edit_restriction_unlanded_aa = { #Actually any (includes unplayable AND unlanded)
+        #flag = "asd_edit_restriction_unplayable"	
+        #flag = "asd_edit_restriction_unlanded"
+	}
+
+
 }
 
 

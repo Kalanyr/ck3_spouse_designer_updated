@@ -4,6 +4,8 @@
  setting_asd_edit_game_after_start_disabled_desc:0 "Disabled."
  setting_asd_edit_game_after_start_enabled:0 "#high Enabled #!"
  setting_asd_edit_game_after_start_enabled_desc:0 "Ruler / Spouse / Family Designer can be used after Game Start"
+ setting_asd_edit_game_after_start_enabled_aa:0 "#high Enabled #!"
+ setting_asd_edit_game_after_start_enabled_aa_desc:0 "Ruler / Spouse / Family Designer can be used after Game Start (Achievements allowed)"
 
  rule_asd_edit_restriction:0 "#V Spouse Designer: #! Editable Characters"
  setting_asd_edit_restriction_standard:0 "Playable Rulers"
@@ -12,3 +14,7 @@
  setting_asd_edit_restriction_unplayable_desc:0 "Counts+ and their Spouses/Family may be edited"
  setting_asd_edit_restriction_unlanded:0 "#high Any #!" 
  setting_asd_edit_restriction_unlanded_desc:0 "Any character and their Spouses/Family may be edited"
+ setting_asd_edit_restriction_unplayable_aa:0 "#high Rulers #!" 
+ setting_asd_edit_restriction_unplayable_aa_desc:0 "Counts+ and their Spouses/Family may be edited (Achievements allowed)"
+ setting_asd_edit_restriction_unlanded_aa:0 "#high Any #!" 
+ setting_asd_edit_restriction_unlanded_aa_desc:0 "Any character and their Spouses/Family may be edited (Achievements allowed)"
