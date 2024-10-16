@@ -13,145 +13,248 @@ spouse_designer.1 = {
             save_temporary_scope_as = placeholder_title
             set_delete_on_destroy = yes
             ROOT = { destroy_title = scope:placeholder_title }
-        }    
+        }
+        if = {
+            limit = {
+                OR = {
+                    has_global_variable = spouse_designer
+                    has_global_variable = spouse_designer_child
+                    any_held_title = {
+                        tier = tier_duchy
+                        has_variable = preexisting_adventurer_title 
+                    }
+                }
+            }
+            every_held_title = {
+                limit = {
+                    tier = tier_duchy
+                    AND = { 
+                        has_variable = adventurer_creation_reason
+                        OR = {
+                            NOT = { holder = { government_has_flag = government_is_landless_adventurer }} #Busted, nuke it
+                            NOT = { has_variable = preexisting_adventurer_title } #Don't destroy pre-existing adventurer titles 
+                            always = no #Replace this with check for toggle for spouse/child adventurers 
+                        }
+                    }    
+                }
+                save_temporary_scope_as = placeholder_title
+                set_delete_on_destroy = yes
+                ROOT = { destroy_title = scope:placeholder_title }
+            }
+        }
         if = {
             limit = {
                 has_global_variable = spouse_designer
             }
-            set_variable = spouse_designer_is_created_spouse
-            global_var:spouse_designer_root_char = {
-                if = { 
-                    limit = {
-                        primary_spouse = {
-                            matrilinear_marriage = yes
+            if = { 
+                limit = {has_global_variable = spouse_designer_replaced_spouse }
+                global_var:spouse_designer_replaced_spouse = {
+                    every_held_title = {
+                        limit = {
+                            tier = tier_duchy
+                            has_variable = spouse_designer_title
                         }
+                        save_temporary_scope_as = placeholder_title
+                        set_delete_on_destroy = yes
+                        ROOT = { destroy_title = scope:placeholder_title }
+                    } 
+                }    
+                global_var:spouse_designer_root_char = {
+                    if = { 
+                        limit = {
+                            primary_spouse = {
+                                matrilinear_marriage = yes
+                            }
+                        }
+                        divorce = primary_spouse
+                        marry_matrilineal = ROOT
+                    } 
+                    else = {
+                        divorce = primary_spouse
+                        marry = ROOT
                     }
-                    divorce = primary_spouse
-                    marry_matrilineal = ROOT
                 } 
-                else = {
-                    divorce = primary_spouse
-                    marry = ROOT
+                remove_global_variable = spouse_designer_replaced_spouse
+            }
+            else = {
+                global_var:spouse_designer_root_char = { 
+                    if = {
+                        limit = {
+                            is_female = yes
+                        }
+                        marry_matrilineal = ROOT
+                    }
+                    else = {
+                        marry = ROOT
+                    }
+                    every_held_title = {
+                        limit = {
+                            tier = tier_duchy
+                            OR = {
+                                has_variable = spouse_designer_title
+                            }
+                        }
+                        save_temporary_scope_as = placeholder_title
+                        set_delete_on_destroy = yes
+                        ROOT = { destroy_title = scope:placeholder_title }
+                    }
                 }
             }
+            set_variable = spouse_designer_is_created_spouse
             remove_global_variable = spouse_designer
         }
-		else_if = {
-			limit = {
+        else_if = {
+            limit = {
                 has_global_variable = spouse_designer_child
             }
-			set_variable = spouse_designer_is_created_child
-			if = {
-				limit = {exists = global_var:spouse_designer_replaced_child.father}
-				set_father = global_var:spouse_designer_replaced_child.father
-			}
-			if = {
-				limit = {exists = global_var:spouse_designer_replaced_child.mother}
-				set_mother = global_var:spouse_designer_replaced_child.mother
-			}
-			global_var:spouse_designer_replaced_child = {
-				every_child = {
-                    even_if_dead = yes
-					if = {
-						limit = {ROOT = {is_female = yes}}
-						set_mother = ROOT
-					}
-					else = {
-						set_father = ROOT
-					}
-				}
-				if = {
-					limit = {exists = primary_spouse}
-					primary_spouse = {
-						divorce = global_var:spouse_designer_replaced_child
-						marry = ROOT
-					}
-				}
-			}
-
-
-			if = {
-				limit = {
-					global_var:spouse_designer_root_char = {is_female = yes}
-				}
-				set_mother = global_var:spouse_designer_root_char
-				if = {
-					limit = {exists = global_var:spouse_designer_root_char.primary_spouse}
-					set_father = global_var:spouse_designer_root_char.primary_spouse
-				}
-			}
-			if = {
-				limit = {
-					global_var:spouse_designer_root_char = {is_female = no}
-				}
-				set_father = global_var:spouse_designer_root_char
-				if = {
-					limit = {exists = global_var:spouse_designer_root_char.primary_spouse}
-					set_mother = global_var:spouse_designer_root_char.primary_spouse
-				}
-			}
-			set_house = global_var:spouse_designer_replaced_child.house
-			if = {
-				limit = { exists = global_var:spouse_designer_replaced_child_location }
-				set_location = global_var:spouse_designer_replaced_child_location
-			}
-			if = {
-				limit = { exists = global_var:spouse_designer_replaced_child_employer }
-				set_employer = global_var:spouse_designer_replaced_child_employer
-			}
-			#Setup child as a guest if not employed and there's a court at their location
-			if = {
-				limit = {
-					NOT = {
-						OR = {
-							exists = employer
-							exists = liege
-						}
-					}
-				}
-			}
-			if = {
-				limit = {
-					exists = location.barony_controller
-				}
-				location.barony_controller = {
-					add_visiting_courtier = prev
-				}
-			}
-
-			
+            global_var:spouse_designer_replaced_child = { #Children do not currently use this (otherwise they'd be limited to being 16+ but preserving this for now for if/when wanna allow children to be Adventurers)
+                every_held_title = {
+                    limit = {
+                        tier = tier_duchy
+                        has_variable = spouse_designer_title
+                    }
+                    save_temporary_scope_as = placeholder_title
+                    set_delete_on_destroy = yes
+                    ROOT = { destroy_title = scope:placeholder_title }
+                } 
+            } 
+            set_variable = spouse_designer_is_created_child
+            if = {
+                limit = {exists = global_var:spouse_designer_replaced_child.father}
+                set_father = global_var:spouse_designer_replaced_child.father
+            }
+            if = {
+                limit = {exists = global_var:spouse_designer_replaced_child.mother}
+                set_mother = global_var:spouse_designer_replaced_child.mother
+            }
             global_var:spouse_designer_replaced_child = {
-				create_character = {
-	                age = 42
-	                gender = male
-					dynasty = generate
-					employer = global_var:spouse_designer_root_char.liege
-	                after_creation = {
-	                    save_temporary_scope_as = replacement_father
-	                }
-	            }
-				create_character = {
-	                age = 42
-	                gender = female
-					dynasty = generate
-					employer = global_var:spouse_designer_root_char.liege
-	                after_creation = {
-	                    save_temporary_scope_as = replacement_mother
-	                }
-	            }
+                every_child = {
+                    even_if_dead = yes
+                    if = {
+                        limit = {ROOT = {is_female = yes}}
+                        set_mother = ROOT
+                    }
+                    else = {
+                        set_father = ROOT
+                    }
+                }
+                if = {
+                    limit = {exists = primary_spouse}
+                    primary_spouse = {
+                        divorce = global_var:spouse_designer_replaced_child
+                        marry = ROOT
+                    }
+                }
+            }
+
+
+            if = {
+                limit = {
+                    global_var:spouse_designer_root_char = {is_female = yes}
+                }
+                set_mother = global_var:spouse_designer_root_char
+                if = {
+                    limit = {exists = global_var:spouse_designer_root_char.primary_spouse}
+                    set_father = global_var:spouse_designer_root_char.primary_spouse
+                }
+            }
+            if = {
+                limit = {
+                    global_var:spouse_designer_root_char = {is_female = no}
+                }
+                set_father = global_var:spouse_designer_root_char
+                if = {
+                    limit = {exists = global_var:spouse_designer_root_char.primary_spouse}
+                    set_mother = global_var:spouse_designer_root_char.primary_spouse
+                }
+            }
+            set_house = global_var:spouse_designer_replaced_child.house
+            if = {
+                limit = { 
+                    exists = global_var:spouse_designer_replaced_child_location
+                }
+                if = {
+                    limit = {
+                        is_ruler = no #Don't set location if we're a mercenary company
+                    }
+                    set_location = global_var:spouse_designer_replaced_child_location
+                }
+                remove_global_variable = spouse_designer_replaced_child_location
+            }
+            if = {
+                limit = { 
+                    exists = global_var:spouse_designer_replaced_child_employer
+                }
+                if = {
+                    limit = {
+                        is_ruler = no #Don't set location if we're a mercenary company
+                    }
+                    set_employer = global_var:spouse_designer_replaced_child_employer
+                }
+                remove_global_variable = spouse_designer_replaced_child_employer
+            }
+            #Setup child as a guest if not employed and there's a court at their location
+            if = {
+                limit = {
+                    NOT = {
+                        OR = {
+                            is_ruler = yes
+                            exists = employer
+                            exists = liege
+                        }
+                    }
+                }
+                if = {
+                    limit = {
+                        exists = location.barony_controller
+                    }
+                    location.barony_controller = {
+                        add_visiting_courtier = prev
+                    }
+                }
+            }
+
+
+            
+            global_var:spouse_designer_replaced_child = {
+                create_character = {
+                    age = {  
+                        value = global_var:spouse_designer_replaced_child.age 
+                        add = 17 
+                    }
+                    gender = male
+                    dynasty = generate
+                    employer = global_var:spouse_designer_root_char.liege
+                    after_creation = {
+                        save_temporary_scope_as = replacement_father
+                    }
+                }
+                create_character = {
+                    age = {  
+                        value = global_var:spouse_designer_replaced_child.age 
+                        add = 17 
+                    }
+                    gender = female
+                    dynasty = generate
+                    employer = global_var:spouse_designer_root_char.liege
+                    after_creation = {
+                        save_temporary_scope_as = replacement_mother
+                    }
+                }
                 set_father = scope:replacement_father
                 set_mother = scope:replacement_mother
-				set_house = scope:replacement_father.house
-				death = natural
-				scope:replacement_father = {
-					death = natural
-				}
-				scope:replacement_mother = {
-					death = natural
-				}
+                set_house = scope:replacement_father.house
+                death = natural
+                scope:replacement_father = {
+                    death = natural
+                }
+                scope:replacement_mother = {
+                    death = natural
+                }
 
             }
             remove_global_variable = spouse_designer_child
-		}
-	}
+            remove_global_variable = spouse_designer_replaced_child
+        }
+    }
 }

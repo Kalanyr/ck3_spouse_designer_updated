@@ -1043,7 +1043,7 @@ window = {
 					autoresize = yes
 					max_width = 550
 					multiline = yes
-					visible = "[And(Not(GetScriptedGui('spouse_designer_show_full_title').IsShown( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End)),Not( StringIsEmpty( RulerDesignerWindow.GetFirstName ) ))]"
+					visible = "[Not( StringIsEmpty( RulerDesignerWindow.GetFirstName ) )]"
 					using = Animation_ShowHide_Standard
 				}
 			}
@@ -1548,7 +1548,7 @@ window = {
 							name = "family"
 							layoutpolicy_horizontal = expanding
 							spacing = 10
-							visible = "[And(Not( RulerDesignerWindow.IsDesigningLandless ),GetScriptedGui('spouse_designer_show_family_options').IsShown( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End))]"
+							visible = "[Not( RulerDesignerWindow.IsDesigningLandless )]"
 
 							vbox = {
 								layoutpolicy_horizontal = expanding

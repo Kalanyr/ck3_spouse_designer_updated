@@ -1,4 +1,4 @@
-types JominiServerBrowser {
+﻿types JominiServerBrowser {
 
 	type JominiMultiplayerPushButton = button {
 		block "jomini_multiplayer_push_button"
@@ -1934,10 +1934,19 @@ types JominiMultiplayerLobby
 		}
 
 		button_standard = {
+			datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
+			visible = "[And(Not( IsPreparationLobby ), Not(Character.GetGovernment.IsType( 'landless_adventurer_government' )))]"
+			enabled = "[LobbyView.CanTryStartRulerDesigning( Character.Self )]"
+			
 			size = { 380 45 }
-			using = SD_button_standard_edit_family
+
+			onclick = "[TryStartRulerDesigning( Character.Self, '(bool)no' )]"
+
+			tooltip = "[LobbyView.GetTryStartRulerDesigningDesc( Character.Self )]"
+			text = "RULER_DESIGNER_OPEN"
+
 			icon = {
-				using = SD_button_standard_edit_family_icon
+				visible = "[And( ShouldPromptForRulerDesigner, LobbyView.CanTryStartRulerDesigning( Character.Self ) )]"
 				size = { 100% 100% }
 				texture = "gfx/interface/component_masks/mask_fade_circle.dds"
 				using = Color_Bright_Yellow
@@ -1971,9 +1980,6 @@ types JominiMultiplayerLobby
 				texture = "gfx/interface/icons/flat_icons/heir.dds"
 			}
 		}
-		SD_button_standard_view_family = {}
-
-		# ksd_multiplayer_types_commented_section.bak
 
 		button_primary_big = {
 			visible = "[And( IsPreparationLobby, PlayerIsHost )]"
@@ -2263,7 +2269,6 @@ types JominiMultiplayerLobby
 
 		block "right_panel"
 		{
-			SD_family_window = {}
 			widget = {
 				parentanchor = top|right
 				widgetanchor = top|right

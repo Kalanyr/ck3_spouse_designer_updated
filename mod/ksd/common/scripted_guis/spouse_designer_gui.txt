@@ -72,105 +72,105 @@
 }
 
 spouse_designer_get_show_naked = {
-	scope = character
-	saved_scopes = {
-		age_check
-	}
-	is_valid = {
-		#always = yes
-		OR = {
-			NOT = { has_global_variable = ksd_stored_age_check}
-			NOT = { scope:age_check = global_var:ksd_stored_age_check }
-			NOT = {
-				OR = {
-					AND = {
-						has_global_variable = ksd_gui_show_naked_toggle
-						has_global_variable = ksd_gui_show_naked_toggle_check
-					}
-					AND = {
-						NOT = { has_global_variable = ksd_gui_show_naked_toggle } 
-						NOT = { has_global_variable = ksd_gui_show_naked_toggle_check }
-					}
-				}
-			}
-		}		
-	}
-	is_shown = {
-		has_global_variable = show_ruler_designer_naked
-		global_var:show_ruler_designer_naked = yes
-	}
-	effect = {
-		if = {
-			limit = {
-				has_global_variable = ksd_gui_show_naked_toggle
-				scope:age_check = yes
-			}
-			if = {
-				limit= {
-					OR = {
-						NOT = { has_global_variable = show_ruler_designer_naked }
-						global_var:show_ruler_designer_naked = no
-					}
-				}
-				set_global_variable = {
-					name = show_ruler_designer_naked
-					value = yes
-				}
-			}
-		}
-		else = {
-			if = {
-				limit= {
-					OR = {
-						NOT = { has_global_variable = show_ruler_designer_naked }
-						global_var:show_ruler_designer_naked = yes
-					}				
-				}
-				set_global_variable = {
-					name = show_ruler_designer_naked
-					value = no
-				}
-			}
-		}
-		set_global_variable = {
-			name = ksd_stored_age_check
-			value = scope:age_check
-		}
-		if = {
-			limit = {
-				has_global_variable = ksd_gui_show_naked_toggle
-				NOT = { has_global_variable = ksd_gui_show_naked_toggle_check }
-			}
-			set_global_variable = ksd_gui_show_naked_toggle_check
-		}
-		else_if = {
-			limit = {
-				NOT = { has_global_variable = ksd_gui_show_naked_toggle }
-				has_global_variable = ksd_gui_show_naked_toggle_check
-			}
-			remove_global_variable = ksd_gui_show_naked_toggle_check
-		}
-	}
+    scope = character
+    saved_scopes = {
+        age_check
+    }
+    is_valid = {
+        #always = yes
+        OR = {
+            NOT = { has_global_variable = ksd_stored_age_check}
+            NOT = { scope:age_check = global_var:ksd_stored_age_check }
+            NOT = {
+                OR = {
+                    AND = {
+                        has_global_variable = ksd_gui_show_naked_toggle
+                        has_global_variable = ksd_gui_show_naked_toggle_check
+                    }
+                    AND = {
+                        NOT = { has_global_variable = ksd_gui_show_naked_toggle } 
+                        NOT = { has_global_variable = ksd_gui_show_naked_toggle_check }
+                    }
+                }
+            }
+        }        
+    }
+    is_shown = {
+        has_global_variable = show_ruler_designer_naked
+        global_var:show_ruler_designer_naked = yes
+    }
+    effect = {
+        if = {
+            limit = {
+                has_global_variable = ksd_gui_show_naked_toggle
+                scope:age_check = yes
+            }
+            if = {
+                limit= {
+                    OR = {
+                        NOT = { has_global_variable = show_ruler_designer_naked }
+                        global_var:show_ruler_designer_naked = no
+                    }
+                }
+                set_global_variable = {
+                    name = show_ruler_designer_naked
+                    value = yes
+                }
+            }
+        }
+        else = {
+            if = {
+                limit= {
+                    OR = {
+                        NOT = { has_global_variable = show_ruler_designer_naked }
+                        global_var:show_ruler_designer_naked = yes
+                    }                
+                }
+                set_global_variable = {
+                    name = show_ruler_designer_naked
+                    value = no
+                }
+            }
+        }
+        set_global_variable = {
+            name = ksd_stored_age_check
+            value = scope:age_check
+        }
+        if = {
+            limit = {
+                has_global_variable = ksd_gui_show_naked_toggle
+                NOT = { has_global_variable = ksd_gui_show_naked_toggle_check }
+            }
+            set_global_variable = ksd_gui_show_naked_toggle_check
+        }
+        else_if = {
+            limit = {
+                NOT = { has_global_variable = ksd_gui_show_naked_toggle }
+                has_global_variable = ksd_gui_show_naked_toggle_check
+            }
+            remove_global_variable = ksd_gui_show_naked_toggle_check
+        }
+    }
 }
 
 
 spouse_designer_set_show_naked = {
-	scope = character
-	is_shown = {
-		has_global_variable = ksd_gui_show_naked_toggle
-	}
+    scope = character
+    is_shown = {
+        has_global_variable = ksd_gui_show_naked_toggle
+    }
 
-	effect = {
-		if = {
-			limit = {
-				has_global_variable = ksd_gui_show_naked_toggle
-			}
-			remove_global_variable = ksd_gui_show_naked_toggle
-		}
-		else = {
-			set_global_variable = ksd_gui_show_naked_toggle
-		}
-	}
+    effect = {
+        if = {
+            limit = {
+                has_global_variable = ksd_gui_show_naked_toggle
+            }
+            remove_global_variable = ksd_gui_show_naked_toggle
+        }
+        else = {
+            set_global_variable = ksd_gui_show_naked_toggle
+        }
+    }
 }
 
 
@@ -179,7 +179,6 @@ spouse_designer_create_child = {
     is_shown = {
         is_adult = yes
     }
-
     effect = {
         if = {
             limit = {
@@ -770,7 +769,7 @@ spouse_designer_create_child = {
                 limit = {
                     scope:spouse ?= {
                         is_alive = yes
-					}
+                    }
                     scope:generated_child = {
                         is_adult = no
                     }
@@ -782,10 +781,10 @@ spouse_designer_create_child = {
                                 is_ruler = yes
                                 AND = {
                                     is_ruler = no
-									OR = {
-										exists = liege
-										exists = employer
-									}
+                                    OR = {
+                                        exists = liege
+                                        exists = employer
+                                    }
                                 }
                             }
                         }
@@ -813,102 +812,103 @@ spouse_designer_create_child = {
                                  save_temporary_scope_as = employer
                              }
                         }
-						else = {
-							scope:generated_child = {
-								move_to_pool_at = scope:spouse.location
-							}
-						}
+                        else = {
+                            scope:generated_child = {
+                                move_to_pool_at = scope:spouse.location
+                            }
+                        }
                     }
                 }
             }
         }
         else = {
-			scope:generated_child = {
-				move_to_pool_at = location
-			}
-			if = {
-				limit = {
-					OR = {
-						is_ruler = yes
-						AND = {
-							is_ruler = no
-							OR = {
-								exists = liege
-								exists = employer
-							}
-						}
-					}
-				}
-				
-				if = {
-					 limit = {
-						 is_ruler = yes
-					 }
-					 save_temporary_scope_as = employer
-				}
-				else_if = {
-					 limit = {
-						 exists = liege
-					 }
-					 liege = {
-						 save_temporary_scope_as = employer
-					 }
-				}
-				else_if = {
-					 limit = {
-						 exists = employer
-					 }
-					 employer = {
-						 save_temporary_scope_as = employer
-					 }
-				}
-				else = {
-					scope:generated_child = {
-						move_to_pool_at = prev.location
-					}
-				}
-			}
+            scope:generated_child = {
+                move_to_pool_at = location
+            }
+            if = {
+                limit = {
+                    OR = {
+                        is_ruler = yes
+                        AND = {
+                            is_ruler = no
+                            OR = {
+                                exists = liege
+                                exists = employer
+                            }
+                        }
+                    }
+                }
+                
+                if = {
+                     limit = {
+                         is_ruler = yes
+                     }
+                     save_temporary_scope_as = employer
+                }
+                else_if = {
+                     limit = {
+                         exists = liege
+                     }
+                     liege = {
+                         save_temporary_scope_as = employer
+                     }
+                }
+                else_if = {
+                     limit = {
+                         exists = employer
+                     }
+                     employer = {
+                         save_temporary_scope_as = employer
+                     }
+                }
+                else = {
+                    scope:generated_child = {
+                        move_to_pool_at = prev.location
+                    }
+                }
+            }
         }
         if = {
             limit = {
                 exists = scope:employer
-				OR = {
-					NOT = { exists = scope:generated_child.employer }
-					NOT = { scope:generated_child.employer = scope:employer }
-				}
+                OR = {
+                    NOT = { exists = scope:generated_child.employer }
+                    NOT = { scope:generated_child.employer = scope:employer }
+                }
             }
             scope:generated_child = {
                 set_employer = scope:employer
             }
         }
 
-		
-		#Setup child as a guest if not employed and there's a court at their location
-		scope:generated_child = {
-			if = {
-				limit = {
-					NOT = {
-						OR = {
-							exists = employer
-							exists = liege
-						}
-					}
-				}
-			}
-			if = {
-				limit = {
-					exists = location.barony_controller
-				}
-				location.barony_controller = {
-					add_visiting_courtier = scope:generated_child
-				}
-			}
-		}
+        
+        #Setup child as a guest if not employed and there's a court at their location
+        scope:generated_child = {
+            if = {
+                limit = {
+                    NOT = {
+                        OR = {
+                            exists = employer
+                            exists = liege
+                        }
+                    }
+                }
+            }
+            if = {
+                limit = {
+                    exists = location.barony_controller
+                }
+                location.barony_controller = {
+                    add_visiting_courtier = scope:generated_child
+                }
+            }
+        }
     }
 }
 spouse_designer_activate = {
     scope = character
     is_shown = {
+        is_adult = yes
         is_alive = yes
         NOT = { has_variable = spouse_designer_is_created_spouse }
         primary_spouse ?= {
@@ -916,6 +916,10 @@ spouse_designer_activate = {
         }
     }
     effect = {
+        if = {
+            limit = { exists = primary_spouse }
+            set_global_variable = {name = spouse_designer_replaced_spouse value = primary_spouse}
+        }
         set_global_variable = {name = spouse_designer_root_char value = ROOT}
         set_global_variable = spouse_designer
         remove_global_variable = spouse_designer_child
@@ -933,17 +937,17 @@ spouse_designer_add_placeholder_title = {
                     is_ruler = no
                 }
             }
-			primary_title ?= {
-				save_scope_as = placeholder_source_title
-			}
-			if = {
-				limit = {
-					NOT = { exists = scope:placeholder_source_title }
-				}
+            primary_title ?= {
+                save_scope_as = placeholder_source_title
+            }
+            if = {
+                limit = {
+                    NOT = { exists = scope:placeholder_source_title }
+                }
                 scope:family_member.location.county = {
                     save_scope_as = placeholder_source_title
                 }
-			}
+            }
             # Create a new title for the family_member.
             create_dynamic_title = {
                 tier = duchy
@@ -974,6 +978,21 @@ spouse_designer_add_placeholder_title = {
             }
             resolve_title_and_vassal_change = scope:change
         }
+        else_if = {
+            limit = {
+                scope:family_member = {
+                    primary_title = {
+                        has_variable = adventurer_creation_reason
+                    }
+                }
+            }
+            scope:family_member.primary_title = {
+                set_variable = {
+                    name = preexisting_adventurer_title
+                    value = yes
+                }
+            }
+        }
     }
 }
 
@@ -996,17 +1015,25 @@ spouse_designer_remove_placeholder_title = {
 spouse_designer_show_realm = {
     scope = character
     is_shown = {
-        is_landed = yes
+        is_ruler = yes
         primary_title = {
             NOT = { has_variable = spouse_designer_title}
         }
     }
 }    
 
+spouse_designer_show_family_options = {
+    scope = character
+    is_shown = {
+		NOT = { has_global_variable = spouse_designer} #Shouldn't be necessary because Spouse should always be landless
+		NOT = { has_global_variable = spouse_designer_child }
+    }
+}    
+
 spouse_designer_show_full_title = {
     scope = character
     is_shown = {
-        is_landed = yes
+        is_ruler = yes
         primary_title = {
             NOT = { has_variable = spouse_designer_title}
         }
@@ -1071,21 +1098,21 @@ spouse_designer_children_activate = {
     effect = {
         set_global_variable = {name = spouse_designer_root_char value = ROOT}
         set_global_variable = {name = spouse_designer_replaced_child value = scope:child}
-		#Need to save Location/Employer now because these get nuked by the Temporary Title.
-		remove_global_variable = spouse_designer_replaced_child_employer
-		if = {
-			limit = {
-				exists = scope:child.employer
-			}
-			set_global_variable = {name = spouse_designer_replaced_child_employer value = scope:child.employer}
-		}
-		remove_global_variable = spouse_designer_replaced_child_location
-		if = {
-			limit = {
-				exists = scope:child.location
-			}
-			set_global_variable = {name = spouse_designer_replaced_child_location value = scope:child.location}
-		}
+        #Need to save Location/Employer now because these get nuked by the Temporary Title.
+        remove_global_variable = spouse_designer_replaced_child_employer
+        if = {
+            limit = {
+                exists = scope:child.employer
+            }
+            set_global_variable = {name = spouse_designer_replaced_child_employer value = scope:child.employer}
+        }
+        remove_global_variable = spouse_designer_replaced_child_location
+        if = {
+            limit = {
+                exists = scope:child.location
+            }
+            set_global_variable = {name = spouse_designer_replaced_child_location value = scope:child.location}
+        }
         remove_global_variable = spouse_designer
         set_global_variable = spouse_designer_child
     }
@@ -1137,96 +1164,299 @@ spouse_designer_matrilineal_marriage = {
 spouse_designer_deactivate = {
     scope = character
     effect = {
-        remove_global_variable = spouse_designer_root_char
-        remove_global_variable = spouse_designer_replaced_child
-        remove_global_variable = spouse_designer
-        remove_global_variable = spouse_designer_child
+        if = {
+            limit = { has_global_variable = spouse_designer_replaced_spouse }
+            remove_global_variable = spouse_designer_replaced_spouse
+        }
+        if = {
+            limit = { has_global_variable = spouse_designer_root_char }
+            remove_global_variable = spouse_designer_root_char
+        }
+        if = {
+            limit = { has_global_variable = spouse_designer }
+            remove_global_variable = spouse_designer
+        }
+        if = {
+            limit = { has_global_variable = spouse_designer_child }
+            remove_global_variable = spouse_designer_child
+        }
+        if = {
+            limit = { has_global_variable = spouse_designer_replaced_child }
+            remove_global_variable = spouse_designer_replaced_child
+        }
+        if = {
+            limit = { has_global_variable = spouse_designer_replaced_child_employer }
+            remove_global_variable = spouse_designer_replaced_child_employer
+        }
+        if = {
+            limit = { has_global_variable = spouse_designer_replaced_child_location }
+            remove_global_variable = spouse_designer_replaced_child_location
+        }
     }
 }
 
-spouse_designer_playable = {
+
+
+spouse_designer_directly_editable = {
     scope = character
     is_valid = {
-		custom_description = {
-			text = "GAME_OVER_CANNOT_PLAY_UNLANDED"
+        custom_description = {
+            text = "GAME_OVER_CANNOT_PLAY_UNLANDED"
             NOT = {
                 AND = {
                     is_landed = no
-					NOT = { 
-						OR = { 
-							has_game_rule = asd_edit_restriction_unlanded
-							has_game_rule = asd_edit_restriction_unlanded_aa
-						}							
-					}
+                    NOT = {
+                        is_ruler = yes
+                        OR = {
+                            government_has_flag = government_is_landless_adventurer
+                            any_held_title = {
+                                is_noble_family_title = yes
+                            }
+                        }
+                    }
+                    NOT = { 
+                        OR = { 
+                            has_game_rule = asd_edit_restriction_unlanded
+                            has_game_rule = asd_edit_restriction_unlanded_aa
+                        }                            
+                    }
                 }
             }
-		}
-		custom_description = {
-			text = "GAME_OVER_CANNOT_PLAY_BELOW_COUNT"
+        }
+        custom_description = {
+            text = "GAME_OVER_CANNOT_PLAY_BELOW_COUNT"
             NOT =  { 
                 AND = {
                     is_landed = yes
                     highest_held_title_tier < tier_county
-					NOT = { 
-						OR = { 
-							has_game_rule = asd_edit_restriction_unlanded
-							has_game_rule = asd_edit_restriction_unlanded_aa
-						}							
-					}
+                    NOT = { 
+                        OR = { 
+                            has_game_rule = asd_edit_restriction_unlanded
+                            has_game_rule = asd_edit_restriction_unlanded_aa
+                        }                            
+                    }
                 }
             }
-		}
+        }
 
-		custom_description = {
-			text = "GAME_OVER_CANNOT_PLAY_THEOCRACY"
+        custom_description = {
+            text = "GAME_OVER_CANNOT_PLAY_THEOCRACY"
             NOT =  { 
                 AND = {
                     is_landed = yes
                     has_government = theocracy_government
-					NOT = { 
-						OR = { 
-							has_game_rule = asd_edit_restriction_unplayable
-							has_game_rule = asd_edit_restriction_unplayable_aa
-							has_game_rule = asd_edit_restriction_unlanded
-							has_game_rule = asd_edit_restriction_unlanded_aa
-						}							
-					}
+                    NOT = { 
+                        OR = { 
+                            has_game_rule = asd_edit_restriction_unplayable
+                            has_game_rule = asd_edit_restriction_unplayable_aa
+                            has_game_rule = asd_edit_restriction_unlanded
+                            has_game_rule = asd_edit_restriction_unlanded_aa
+                        }                            
+                    }
                 }
             }
-		}
+        }
 
-		custom_description = {
-			text = "GAME_OVER_CANNOT_PLAY_REPUBLIC"
+        custom_description = {
+            text = "GAME_OVER_CANNOT_PLAY_REPUBLIC"
             NOT =  { 
                 AND = {
                     is_landed = yes
                     has_government = republic_government
-					NOT = { 
-						OR = { 
-							has_game_rule = asd_edit_restriction_unplayable
-							has_game_rule = asd_edit_restriction_unplayable_aa
-							has_game_rule = asd_edit_restriction_unlanded
-							has_game_rule = asd_edit_restriction_unlanded_aa
-						}													
-					}
-				}
+                    NOT = { 
+                        OR = { 
+                            has_game_rule = asd_edit_restriction_unplayable
+                            has_game_rule = asd_edit_restriction_unplayable_aa
+                            has_game_rule = asd_edit_restriction_unlanded
+                            has_game_rule = asd_edit_restriction_unlanded_aa
+                        }                                                    
+                    }
+                }
             }
-		}
+        }
+        
+        custom_description = {
+            text = "CANNOT_EDIT_LANDLESS_NOBLE_FAMILY"
+            NOT =  { 
+                AND = {
+                    is_landed = no
+                    any_held_title = {
+                        is_noble_family_title = yes
+                    }
+                }
+            }        
+        }
+    }        
+}
+
+spouse_designer_indirectly_editable = {
+    scope = character
+    is_valid = {
+        custom_description = {
+            text = "GAME_OVER_CANNOT_PLAY_UNLANDED"
+            NOT = {
+                AND = {
+                    is_landed = no
+                    NOT = {
+                        is_ruler = yes
+                        OR = {
+                            government_has_flag = government_is_landless_adventurer
+                            any_held_title = {
+                                is_noble_family_title = yes
+                            }
+                        }
+                    }
+                    NOT = { 
+                        OR = { 
+                            has_game_rule = asd_edit_restriction_unlanded
+                            has_game_rule = asd_edit_restriction_unlanded_aa
+                        }                            
+                    }
+                }
+            }
+        }
+        custom_description = {
+            text = "GAME_OVER_CANNOT_PLAY_BELOW_COUNT"
+            NOT =  { 
+                AND = {
+                    is_landed = yes
+                    highest_held_title_tier < tier_county
+                    NOT = { 
+                        OR = { 
+                            has_game_rule = asd_edit_restriction_unlanded
+                            has_game_rule = asd_edit_restriction_unlanded_aa
+                        }                            
+                    }
+                }
+            }
+        }
+
+        custom_description = {
+            text = "GAME_OVER_CANNOT_PLAY_THEOCRACY"
+            NOT =  { 
+                AND = {
+                    is_landed = yes
+                    has_government = theocracy_government
+                    NOT = { 
+                        OR = { 
+                            has_game_rule = asd_edit_restriction_unplayable
+                            has_game_rule = asd_edit_restriction_unplayable_aa
+                            has_game_rule = asd_edit_restriction_unlanded
+                            has_game_rule = asd_edit_restriction_unlanded_aa
+                        }                            
+                    }
+                }
+            }
+        }
+
+        custom_description = {
+            text = "GAME_OVER_CANNOT_PLAY_REPUBLIC"
+            NOT =  { 
+                AND = {
+                    is_landed = yes
+                    has_government = republic_government
+                    NOT = { 
+                        OR = { 
+                            has_game_rule = asd_edit_restriction_unplayable
+                            has_game_rule = asd_edit_restriction_unplayable_aa
+                            has_game_rule = asd_edit_restriction_unlanded
+                            has_game_rule = asd_edit_restriction_unlanded_aa
+                        }                                                    
+                    }
+                }
+            }
+        }
         
     }
+      
 }
+
+
+
+
+
+#spouse_designer_playable = {
+#    scope = character
+#    is_valid = {
+#        custom_description = {
+#            text = "GAME_OVER_CANNOT_PLAY_UNLANDED"
+#            NOT = {
+#                AND = {
+#                    is_landed = no
+#                    NOT = { 
+#                        OR = { 
+#                           has_game_rule = asd_edit_restriction_unlanded
+#                            has_game_rule = asd_edit_restriction_unlanded_aa
+#                        }                            
+#                    }
+#                }
+#            }
+#        }
+#        custom_description = {
+#            text = "GAME_OVER_CANNOT_PLAY_BELOW_COUNT"
+#            NOT =  { 
+#                AND = {
+#                    is_landed = yes
+#                    highest_held_title_tier < tier_county
+#                    NOT = { 
+#                        OR = { 
+#                            has_game_rule = asd_edit_restriction_unlanded
+#                            has_game_rule = asd_edit_restriction_unlanded_aa
+#                        }                            
+#                    }
+#                }
+#            }
+#        }
+#
+#        custom_description = {
+#            text = "GAME_OVER_CANNOT_PLAY_THEOCRACY"
+#            NOT =  { 
+#                AND = {
+#                    is_landed = yes
+#                    has_government = theocracy_government
+#                    NOT = { 
+#                        OR = { 
+#                            has_game_rule = asd_edit_restriction_unplayable
+#                            has_game_rule = asd_edit_restriction_unplayable_aa
+#                            has_game_rule = asd_edit_restriction_unlanded
+#                            has_game_rule = asd_edit_restriction_unlanded_aa
+#                        }                            
+#                    }
+#                }
+#            }
+#        }
+#
+#        custom_description = {
+#            text = "GAME_OVER_CANNOT_PLAY_REPUBLIC"
+#            NOT =  { 
+#                AND = {
+#                    is_landed = yes
+#                    has_government = republic_government
+#                    NOT = { 
+#                        OR = { 
+#                            has_game_rule = asd_edit_restriction_unplayable
+#                            has_game_rule = asd_edit_restriction_unplayable_aa
+#                            has_game_rule = asd_edit_restriction_unlanded
+#                            has_game_rule = asd_edit_restriction_unlanded_aa
+#                        }                                                    
+#                    }
+#                }
+#            }
+#        }
+#    }
+#}
 
 spouse_designer_remove_child = {
     scope = character
     saved_scopes = {child}
     is_shown = {
-		scope:child ?= {
-			NOT = { is_landed = yes }
-			any_child = {
-				even_if_dead = yes
-				count = 0
-			}
-		}
+        scope:child ?= {
+            NOT = { is_landed = yes }
+            any_child = {
+                even_if_dead = yes
+                count = 0
+            }
+        }
     }
     effect = {
         if = {
@@ -1550,36 +1780,36 @@ spouse_designer_remove_child = {
 }
 
 spouse_designer_show_nudity_enabled = {
-	scope = character
-	is_valid = {
-		OR = {
-			NOT = { has_global_variable = spouse_designer_show_nudity_enabled }
-			NOT = { global_var:spouse_designer_show_nudity_enabled =  spouse_designer_display_nudity_toggle }
-		}
-	}
-	is_shown = {
-		has_global_variable = spouse_designer_show_nudity_enabled
-		global_var:spouse_designer_show_nudity_enabled = spouse_designer_display_nudity_enabled
-	}
-	effect = {
-		set_global_variable = {
-			name = spouse_designer_show_nudity_enabled
-			value = spouse_designer_display_nudity_toggle
-		}
-	}
+    scope = character
+    is_valid = {
+        OR = {
+            NOT = { has_global_variable = spouse_designer_show_nudity_enabled }
+            NOT = { global_var:spouse_designer_show_nudity_enabled =  spouse_designer_display_nudity_toggle }
+        }
+    }
+    is_shown = {
+        has_global_variable = spouse_designer_show_nudity_enabled
+        global_var:spouse_designer_show_nudity_enabled = spouse_designer_display_nudity_enabled
+    }
+    effect = {
+        set_global_variable = {
+            name = spouse_designer_show_nudity_enabled
+            value = spouse_designer_display_nudity_toggle
+        }
+    }
 }
 
 spouse_designer_divorce_spouse = {
     scope = character
     saved_scopes = {spouse}
-	is_shown = {
+    is_shown = {
         exists = scope:spouse
-	}
-    is_valid = {	
+    }
+    is_valid = {    
         is_alive = yes
         NOT = {has_variable = spouse_designer_is_created_spouse}
         scope:spouse ?= {
-			is_alive = yes
+            is_alive = yes
             NOT = {is_landed = yes}
         }
     }    

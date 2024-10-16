@@ -122,20 +122,20 @@ types SpouseDesigner {
 
 										visible = "[GetScriptedGui('spouse_designer_visible_for_ruler_designer').IsShown( GuiScope.SetRoot( Character.MakeScope ).End) ]"
 										#enabled = "[LobbyView.CanTryStartRulerDesigning( Character.Self )]"
-										enabled = "[And(GetScriptedGui('spouse_designer_directly_editable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))) ]"
+										enabled = "[And(GetScriptedGui('spouse_designer_playable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))) ]"
 
 										onclick = "[GetScriptedGui('spouse_designer_deactivate').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
 										onclick = "[GetScriptedGui('spouse_designer_add_placeholder_title').Execute( GuiScope.SetRoot( Character.MakeScope ).AddScope('family_member',Character.MakeScope).End)]"
-										onclick = "[TryStartRulerDesigning( Character.Self,'(bool)no' )]"
+										onclick = "[TryStartRulerDesigning( Character.Self )]"
 
 										#tooltip = "[LobbyView.GetTryStartRulerDesigningDesc( Character.Self )]"
-										tooltip = "[GetScriptedGui('spouse_designer_directly_editable').BuildTooltip( GuiScope.SetRoot( Character.MakeScope ).End) ]"
+										tooltip = "[GetScriptedGui('spouse_designer_playable').BuildTooltip( GuiScope.SetRoot( Character.MakeScope ).End) ]"
 
 										text = "RULER_DESIGNER_OPEN"
 
 										#icon = {
 										#	#visible = "[And( ShouldPromptForRulerDesigner, LobbyView.CanTryStartRulerDesigning( Character.Self ) )]"
-										#	visible = "[And( ShouldPromptForRulerDesigner, And(GetScriptedGui('spouse_designer_directly_editable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))) )]"
+										#	visible = "[And( ShouldPromptForRulerDesigner, And(GetScriptedGui('spouse_designer_playable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))) )]"
 										#	size = { 25% 25% }
 										#	texture = "gfx/interface/component_masks/mask_fade_circle.dds"
 										#	using = Color_Bright_Yellow
@@ -201,15 +201,10 @@ types SpouseDesigner {
 										button_checkbox_label = {
 											layoutpolicy_horizontal = expanding
 											visible = "[GetScriptedGui('spouse_designer_is_married').IsShown( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End)]"
-											enabled = "[And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End),And(Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')),GetScriptedGui('spouse_designer_matrilineal_marriage').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End)))]"
-											#tooltip = "[Select_CString(And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter ).End),And(Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')),GetScriptedGui('spouse_designer_matrilineal_marriage').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End))),Localize('SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE_desc'),GetScriptedGui('spouse_designer_indirectly_editable').BuildTooltip( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter ).End))]"
-											tooltip = "[Select_CString(And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End),And(Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')),GetScriptedGui('spouse_designer_matrilineal_marriage').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End))),Localize('SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE_desc'),GetScriptedGui('spouse_designer_indirectly_editable').BuildTooltip( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End))]"
-
+											enabled = "[And(Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')),GetScriptedGui('spouse_designer_matrilineal_marriage').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End))]"
 											datacontext = "[GetScriptedGui('spouse_designer_matrilineal_marriage')]"
 											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End)]"
-											#tooltip = "SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE_desc"
-											#tooltip = "[GetScriptedGui('spouse_designer_indirectly_editable_matri').BuildTooltip( GuiScope.SetRoot( Character.MakeScope ).End) ]"
-
+											tooltip = "SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE_desc"
 
 											blockoverride "checkbox"
 											{
@@ -230,23 +225,9 @@ types SpouseDesigner {
 										#layoutpolicy_vertical = expanding
 										#layoutpolicy_horizontal = expanding
 										datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
-										enabled = "[And(GetScriptedGui('spouse_designer_directly_editable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')))]"
-										visible = "[And(Not( IsPreparationLobby ),GetScriptedGui('spouse_designer_create_spouse').IsShown( GuiScope.SetRoot( Character.MakeScope ).End))]" #This checks the wrong function deliberately due to context
-										onclick = "[GetScriptedGui('spouse_designer_deactivate').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-										onclick = "[GetScriptedGui('spouse_designer_activate').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-										onclick = "[GetScriptedGui('spouse_designer_add_placeholder_title').Execute( GuiScope.SetRoot( Character.MakeScope ).AddScope('family_member',Character.MakeScope).End)]"
-										onclick = "[TryStartRulerDesigning( Character.Self,'(bool)yes' )]"
-										tooltip = "[GetScriptedGui('spouse_designer_indirectly_editable').BuildTooltip( GuiScope.SetRoot( Character.MakeScope ).End) ]"
-										text = "SPOUSE_DESIGNER_DESIGN_SPOUSE"
-									}
-									button_standard = {
-										#layoutpolicy_vertical = expanding
-										#layoutpolicy_horizontal = expanding
-										datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
-										enabled = "[And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')))]"
+										enabled = "[Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))]"
 										visible = "[And(Not( IsPreparationLobby ),GetScriptedGui('spouse_designer_create_spouse').IsShown( GuiScope.SetRoot( Character.MakeScope ).End))]"
 										onclick = "[GetScriptedGui('spouse_designer_create_spouse').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-										tooltip = "[GetScriptedGui('spouse_designer_indirectly_editable').BuildTooltip( GuiScope.SetRoot( Character.MakeScope ).End) ]"
 										text = "SPOUSE_DESIGNER_ADD_SPOUSE"
 									}
 									button_standard = {
@@ -254,9 +235,8 @@ types SpouseDesigner {
 										text = "SPOUSE_DESIGNER_DIVORCE"
 										datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
 										visible = "[GetScriptedGui('spouse_designer_divorce_spouse').IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope('spouse',Character.GetPrimarySpouse.MakeScope).End)]"
-										enabled = "[And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),And(Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')),GetScriptedGui('spouse_designer_divorce_spouse').IsValid( GuiScope.SetRoot( Character.MakeScope ).AddScope('spouse',Character.GetPrimarySpouse.MakeScope).End)))]"
+										enabled = "[And(Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')),GetScriptedGui('spouse_designer_divorce_spouse').IsValid( GuiScope.SetRoot( Character.MakeScope ).AddScope('spouse',Character.GetPrimarySpouse.MakeScope).End))]"
 										onclick = "[GetScriptedGui('spouse_designer_divorce_spouse').Execute( GuiScope.SetRoot( Character.MakeScope ).AddScope('spouse',Character.GetPrimarySpouse.MakeScope).End)]"
-										tooltip = "[GetScriptedGui('spouse_designer_indirectly_editable').BuildTooltip( GuiScope.SetRoot( Character.MakeScope ).End) ]"
 									}
 									spacer = {
 										size = { 5 5 }
@@ -266,13 +246,11 @@ types SpouseDesigner {
 										#layoutpolicy_horizontal = expanding
 										datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
 										visible = "[And(Not( IsPreparationLobby ), GetScriptedGui('spouse_designer_activate').IsShown( GuiScope.SetRoot( Character.MakeScope ).End) )]"
-										enabled = "[And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')))]"
-										onclick = "[GetScriptedGui('spouse_designer_deactivate').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+										enabled = "[Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))]"
 										onclick = "[GetScriptedGui('spouse_designer_activate').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
 										onclick = "[GetScriptedGui('spouse_designer_add_placeholder_title').Execute( GuiScope.SetRoot( Character.MakeScope ).AddScope('family_member',Character.GetPrimarySpouse.MakeScope).End)]"
-										onclick = "[TryStartRulerDesigning( Character.GetPrimarySpouse.Self,'(bool)yes' )]"
-										tooltip = "[GetScriptedGui('spouse_designer_indirectly_editable').BuildTooltip( GuiScope.SetRoot( Character.MakeScope ).End) ]"
-										text = "SPOUSE_DESIGNER_EDIT_SPOUSE"
+										onclick = "[TryStartRulerDesigning( Character.GetPrimarySpouse.Self )]"
+										text = "SPOUSE_DESIGNER_OPEN"
 									}
 								}
 							}
@@ -325,20 +303,17 @@ types SpouseDesigner {
 													size = {100 30}
 													text = SPOUSE_DESIGNER_EDIT
 													visible = "[GetScriptedGui('spouse_designer_children_activate').IsShown( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).AddScope('child',Scope.GetCharacter.MakeScope).End)]"
-													enabled = "[And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End),And(Scope.GetCharacter.IsAlive,Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))))]"
-													onclick = "[GetScriptedGui('spouse_designer_deactivate').Execute( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End)]"
+													enabled = "[And(Scope.GetCharacter.IsAlive,Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')))]"
 													onclick = "[GetScriptedGui('spouse_designer_children_activate').Execute( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).AddScope('child',Scope.GetCharacter.MakeScope).End)]"
 													onclick = "[GetScriptedGui('spouse_designer_add_placeholder_title').Execute( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).AddScope('family_member',Scope.GetCharacter.MakeScope).End)]"
-													onclick = "[TryStartRulerDesigning( Scope.GetCharacter.Self, '(bool)no' )]"
-													tooltip = "[GetScriptedGui('spouse_designer_indirectly_editable').BuildTooltip( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End) ]"
+													onclick = "[TryStartRulerDesigning( Scope.GetCharacter.Self )]"
 												}
 												button_tertiary = {
 													size = {100 30}
 													text = SPOUSE_DESIGNER_REMOVE
-													enabled = "[And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')))]"
+													enabled = "[Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))]"
 													visible = "[GetScriptedGui('spouse_designer_remove_child').IsShown( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).AddScope('child',Scope.GetCharacter.MakeScope).End)]"
 													onclick = "[GetScriptedGui('spouse_designer_remove_child').Execute( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).AddScope('child',Scope.GetCharacter.MakeScope).End)]"
-													tooltip = "[GetScriptedGui('spouse_designer_indirectly_editable').BuildTooltip( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End) ]"
 												}
 											}
 										}
@@ -348,12 +323,11 @@ types SpouseDesigner {
 						}
 						
 						button_round = {
-							#tooltip = "SPOUSE_DESIGNER_ADD_CHILDREN"
+							tooltip = "SPOUSE_DESIGNER_ADD_CHILDREN"
 							datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
 							visible = "[GetScriptedGui('spouse_designer_create_child').IsShown( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End)]"
-							enabled = "[And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start')))]"
+							enabled = "[Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))]"
 							onclick = "[GetScriptedGui('spouse_designer_create_child').Execute( GuiScope.SetRoot( LobbyView.GetSelectedPlayable.GetCharacter.MakeScope ).End)]"
-							tooltip = "[Select_CString(And(GetScriptedGui('spouse_designer_indirectly_editable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))),Localize('SPOUSE_DESIGNER_ADD_CHILDREN'),GetScriptedGui('spouse_designer_indirectly_editable').BuildTooltip( GuiScope.SetRoot( Character.MakeScope ).End))) ]"
 							icon = {
 								size = { 100% 100% }
 								texture = "gfx/interface/icons/symbols/icon_plus.dds"
@@ -384,6 +358,6 @@ template SD_button_standard_edit_family {
 
 template SD_button_standard_edit_family_icon {
 	#visible = "[And( ShouldPromptForRulerDesigner, LobbyView.CanTryStartRulerDesigning( Character.Self ) )]"
-	#visible = "[And( ShouldPromptForRulerDesigner, And(GetScriptedGui('spouse_designer_directly_editable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))) )]"
+	#visible = "[And( ShouldPromptForRulerDesigner, And(GetScriptedGui('spouse_designer_playable').IsValid( GuiScope.SetRoot( Character.MakeScope ).End),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))) )]"
 	visible = "[And( ShouldPromptForRulerDesigner,And(And(Or(Not(GetVariableSystem.Exists('spouse_designer_family')), GetVariableSystem.HasValue('spouse_designer_family', 'false' )), LobbyView.GetSelectedPlayable.GetCharacter.IsValid),Or(Not(HasGameStartedForTheFirstTime),AccessGameRules.HasRuleWithFlag('asd_edit_game_after_start'))))]"
 }

@@ -1830,7 +1830,43 @@ types JominiMultiplayerLobby
 			using = JominiLobbyViewModuleBackground
 		}
 
+
+		text_multi = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			default_format = "#I"
+			align = center
+			text = "MULTIPLAYER_GUI_CLICK_TO_SELECT"
+			visible = "[And( Not( LobbyView.HasSelectedPlayable ), Not( LobbyView.IsObserver ) )]"
+		}
+
+
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			visible = "[And( Not( LobbyView.HasSelectedPlayable ), LobbyView.IsObserver )]"
+
+			spacer = {size = {0 20}}
+
+			text_label_center = {
+				name = "header"
+				text = "JOMINI_MULTIPLAYER_GUI_OBSERVER"
+			}
+
+			text_multi = {
+				name = "desc"
+				text = "FRONTEND_OBSERVER_DESC"
+				autoresize = yes
+				max_width = 300
+				align = left
+			}
+
+			expand = {}
+		}
+
+		# Playable Selected
 		widget = {
+			visible = "[LobbyView.HasSelectedPlayable]"
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
 
@@ -1883,7 +1919,6 @@ types JominiMultiplayerLobby
 			align = center|center
 			text = "JOMINI_MULTIPLAYER_GUI_WAIT_HOST_START"
 		}
-
 
 		button_standard = {
 			size = { 380 45 }
@@ -1963,27 +1998,26 @@ types JominiMultiplayerLobby
 				}
 			}
 
-			button_icon = {
+			button_edit_text = {
 				size = { 30 30 }
 				parentanchor = left|vcenter
 				position = { 5 0 }
 				alwaystransparent = yes
-				texture = "gfx/interface/icons/flat_icons/heir.dds"
 			}
 		}
 		SD_button_standard_view_family = {}
 
+		spacer = {
+			size = { 10 10 }
+		}
 		# ksd_multiplayer_types_commented_section.bak
 
 		button_primary_big = {
-			visible = "[And( IsPreparationLobby, PlayerIsHost )]"
 			size = { 380 50 }
-
-			onclick = "[CloseGameView( 'find_title' )]"
+			visible = "[And( IsPreparationLobby, PlayerIsHost )]"
 			onclick = "[LobbyView.Start]"
 			enabled = "[LobbyView.CanStart]"
 			tooltip = "[LobbyView.StartToolTip]"
-
 			text = "JOMINI_MULTIPLAYER_GUI_START"
 
 			oversound = "event:/SFX/UI/Generic/sfx_ui_generic_pointer_over"
@@ -2004,18 +2038,15 @@ types JominiMultiplayerLobby
 		}
 
 		button_primary_big = {
-			datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
-			
-			visible = "[Not( IsPreparationLobby )]"
 			size = { 380 50 }
-
-			onclick = "[CloseGameView( 'find_title' )]"
-			onclick = "[LobbyView.Control( Character.GetPlayable )]"
-			onclick = "[LobbyView.Ready]"
-			enabled = "[And( LobbyView.CanControl( Character.GetPlayable ), Character.IsRuler )]"
-			tooltip = "[LobbyView.GetControlToolTip( Character.GetPlayable )]"
-
+			visible = "[Not( IsPreparationLobby )]"
 			text = "JOMINI_MULTIPLAYER_GUI_START"
+
+			onclick = "[LobbyView.ControlSelected]"
+			onclick = "[LobbyView.Ready]"
+			enabled = "[LobbyView.CanControlSelected]"
+
+			tooltip = "[LobbyView.GetControlToolTip]"
 		}
 	}
 
@@ -2270,7 +2301,7 @@ types JominiMultiplayerLobby
 
 				block "right_panel_properties"
 				{
-					size = { 420 100% }
+					size = { 410 100% }
 				}
 
 				using = Window_Background_Sidebar_Multiplayer_Right
