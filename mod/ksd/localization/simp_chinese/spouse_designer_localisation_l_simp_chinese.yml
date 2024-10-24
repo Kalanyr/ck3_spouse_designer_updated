@@ -1,7 +1,7 @@
 ﻿l_simp_chinese:
- unlanded_female:1 " "
- unlanded_male:1 " "
- unlanded:1 " "
+ #unlanded_female:1 " "
+ #unlanded_male:1 " "
+ #unlanded:1 " "
  SPOUSE_DESIGNER_SPOUSE:1 "配偶"
  SPOUSE_DESIGNER_PARENTS:1 "父母："
  SPOUSE_DESIGNER_CHILDREN:1 "儿童："

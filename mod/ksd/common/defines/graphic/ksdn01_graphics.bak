@@ -1,7 +1,0 @@
-﻿
-NRulerDesigner = {
-	PORTRAIT_MODIFIER_OVERRIDE_SET_KEY = { "clothes" "clothes" "weight" "weight" "muscularity" }
-	PORTRAIT_MODIFIER_OVERRIDE_ITEM_KEY = { "ruler_designer_clothes" "ruler_designer_clothes2" "ruler_designer_overweight" "ruler_designer_underweight" "muscular" }
-	
-}
-

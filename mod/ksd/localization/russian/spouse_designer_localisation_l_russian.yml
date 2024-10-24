@@ -1,16 +1,16 @@
 ﻿l_russian:
-unlanded_female:1 " "
-unlanded_male:1 " "
-unlanded:1 " "
-SPOUSE_DESIGNER_SPOUSE:1 "Супруг"
-SPOUSE_DESIGNER_PARENTS:1 "Родители:"
-SPOUSE_DESIGNER_CHILDREN:1 "Дети:"
-SPOUSE_DESIGNER_CHILDREN_desc:1 "По техническим причинам могут отображаться только дети того же дома, что и этот персонаж или его нынешняя супруга.:"
-SPOUSE_DESIGNER_ADD_CHILDREN:1 «Добавить детей»
-SPOUSE_DESIGNER_EDIT_FAMILY:1 «Редактировать семью»
-SPOUSE_DESIGNER_ADD_SPOUSE:1 "Добавить супруга"
-SPOUSE_DESIGNER_DIVORCE:1 "Развод"
-SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE:1 "Матрилинейный брак"
-SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE_desc:1 "Если отмечено, это брак по материнской линии"
-SPOUSE_DESIGNER_OPEN:1 "Открыть конструктор супругов" 
-RULER_DESIGNER_FULL_UNLANDED_NAME:2 "[RulerDesignerWindow.GetTitleTierName] #high [RulerDesignerWindow.GetFirstName] [RulerDesignerWindow.GetDynastyName]#!"
+ #unlanded_female:1 " "
+ #unlanded_male:1 " "
+ #unlanded:1 " "
+ SPOUSE_DESIGNER_SPOUSE:1 "Супруг"
+ SPOUSE_DESIGNER_PARENTS:1 "Родители:"
+ SPOUSE_DESIGNER_CHILDREN:1 "Дети:"
+ SPOUSE_DESIGNER_CHILDREN_desc:1 "По техническим причинам могут отображаться только дети того же дома, что и этот персонаж или его нынешняя супруга.:"
+ SPOUSE_DESIGNER_ADD_CHILDREN:1 «Добавить детей»
+ SPOUSE_DESIGNER_EDIT_FAMILY:1 «Редактировать семью»
+ SPOUSE_DESIGNER_ADD_SPOUSE:1 "Добавить супруга"
+ SPOUSE_DESIGNER_DIVORCE:1 "Развод"
+ SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE:1 "Матрилинейный брак"
+ SPOUSE_DESIGNER_MATRILINEAR_MARRIAGE_desc:1 "Если отмечено, это брак по материнской линии"
+ SPOUSE_DESIGNER_OPEN:1 "Открыть конструктор супругов" 
+ RULER_DESIGNER_FULL_UNLANDED_NAME:2 "[RulerDesignerWindow.GetTitleTierName] #high [RulerDesignerWindow.GetFirstName] [RulerDesignerWindow.GetDynastyName]#!"
